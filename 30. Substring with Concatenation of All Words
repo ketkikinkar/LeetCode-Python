@@ -1,0 +1,13 @@
+class Solution:
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+
+        init_index = 0
+
+        for i in range(len(s)):
+
+            if s[i] in words[:][0]:
+
+                if s[i+ len(words[0])*(len(words)-1)] == words[:][0]:  i += len(words[0])
+
+                
+
