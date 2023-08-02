@@ -1,0 +1,22 @@
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+
+        if len(s) != len(t) : return False
+
+        s2t = {}
+        t2s = {}
+
+        for i in range(len(s)):
+
+            if s[i] not in s2t and t[i] not in t2s: s2t[s[i]], t2s[t[i]] = t[i], s[i]
+
+            elif s[i] in s2t and s2t[s[i]] == t[i] :
+
+                continue
+
+            else:
+                return False
+
+        
+        return True
+            
