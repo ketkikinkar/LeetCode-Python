@@ -1,0 +1,59 @@
+"""
+323. Number of Connected Components in an Undirected Graph
+Solved
+Medium
+Topics
+Companies
+You have a graph of n nodes. You are given an integer n and an array edges where edges[i] = [ai, bi] indicates that there is an edge between ai and bi in the graph.
+
+Return the number of connected components in the graph.
+
+ 
+
+Example 1:
+
+
+Input: n = 5, edges = [[0,1],[1,2],[3,4]]
+Output: 2
+Example 2:
+
+
+Input: n = 5, edges = [[0,1],[1,2],[2,3],[3,4]]
+Output: 1
+ 
+
+Constraints:
+
+1 <= n <= 2000
+1 <= edges.length <= 5000
+edges[i].length == 2
+0 <= ai <= bi < n
+ai != bi
+There are no repeated edges.
+Seen this question in a real interview before?
+1/5
+"""
+
+# SOLTUION:
+
+class Solution:
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+        adj = {i:[] for i in range(n)}
+        visit = set()
+        res= 0
+        for n1,n2 in edges:
+            adj[n1].append(n2)
+            adj[n2].append(n1)
+        print(adj)
+        def dfs(node):
+            if node not in visit: 
+                visit.add(node)
+                for j in adj[node]:
+                    dfs(j)
+        
+        for i in range(n):
+            if i not in visit:
+                dfs(i)
+                res+=1
+        return res
+        
