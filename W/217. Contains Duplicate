@@ -1,0 +1,81 @@
+"""
+217. Contains Duplicate
+Easy
+Topics
+Companies
+Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,1]
+
+Output: true
+
+Explanation:
+
+The element 1 occurs at the indices 0 and 3.
+
+Example 2:
+
+Input: nums = [1,2,3,4]
+
+Output: false
+
+Explanation:
+
+All elements are distinct.
+
+Example 3:
+
+Input: nums = [1,1,1,3,3,4,3,2,4,2]
+
+Output: true
+Constraints:
+1 <= nums.length <= 105
+-109 <= nums[i] <= 109
+
+Seen this question in a real interview before?
+1/5
+Yes
+No
+Accepted
+4.9M
+Submissions
+7.8M
+Acceptance Rate
+62.8%
+Topics
+Array
+Hash Table
+Sorting
+
+"""
+
+# SOLUTION:
+
+class Solution:
+    def containsDuplicate(self, nums: List[int]) -> bool:
+        hashset = set()
+        for n in nums:
+            if n in hashset:
+                return True
+            hashset.add(n)
+        return False
+        """
+        Time Complexity: O(n)
+
+The algorithm iterates through each element in the input array once.
+For each element, there are two operations:
+
+Checking if the element exists in the hashset, which is O(1) on average
+Adding the element to the hashset, which is also O(1) on average
+
+
+Since these constant-time operations are performed n times, the overall time complexity is O(n).
+
+Space Complexity: O(n)
+
+In the worst case (when there are no duplicates), the hashset will store all n elements from the input array.
+This results in O(n) space complexity."""
