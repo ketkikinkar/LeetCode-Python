@@ -63,6 +63,7 @@ class Solution:
         prevMap = {} # val :  index
         for i, n in enumerate(nums):
             diff = target - n
+# T O(n); M O(n)
             if diff in prevMap:
                 return [i,prevMap[diff]]
             prevMap[n]=i
