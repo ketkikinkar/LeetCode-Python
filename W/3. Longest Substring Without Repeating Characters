@@ -1,0 +1,77 @@
+"""
+3. Longest Substring Without Repeating Characters https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
+Medium
+Topics
+Companies
+Hint
+Given a string s, find the length of the longest substring without duplicate characters.
+
+Example 1:
+
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+Example 2:
+
+Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
+Example 3:
+
+Input: s = "pwwkew"
+Output: 3
+Explanation: The answer is "wke", with the length of 3.
+Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+Constraints:
+
+0 <= s.length <= 5 * 104
+s consists of English letters, digits, symbols and spaces.
+
+Seen this question in a real interview before?
+1/5
+7.1M
+Submissions
+19.5M
+Acceptance Rate
+36.3%
+Topics
+Hash Table
+String
+Sliding Window
+Companies
+Hint 1
+Generate all possible substrings & check for each substring if it's valid and keep updating maxLen accordingly.
+"""
+
+# SOLTUION:
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        charSet = set()
+        l = 0
+        res = 0
+        for r in range(len(s)):
+            while s[r] in charSet:
+                charSet.remove(s[l])
+                l += 1
+            charSet.add(s[r])
+            res= max(res,len(charSet))
+        return res
+        """
+        Time Complexity: O(n)
+
+The algorithm uses a sliding window approach with two pointers (l and r).
+The right pointer r iterates through each character of the string exactly once in the outer loop.
+The left pointer l may also move across each character at most once throughout the entire execution.
+Each character is added to and removed from the set at most once.
+All operations inside the loops (set additions, removals, comparisons) take O(1) time.
+Therefore, the overall time complexity is O(n), where n is the length of the input string s.
+
+Space Complexity: O(min(n, m))
+
+The algorithm uses a set (charSet) to keep track of unique characters in the current window.
+In the worst case, the set could contain all unique characters in the string.
+However, the set size is bounded by either the string length (n) or the size of the character set (m).
+For ASCII characters, m would be 128, or 256 for extended ASCII.
+For Unicode, m could be much larger, but is still a constant for practical purposes.
+Therefore, the space complexity is O(min(n, m)), where n is the string length and m is the size of the character set."""
