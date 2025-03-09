@@ -1,0 +1,80 @@
+"""
+424. Longest Repeating Character Replacement https://leetcode.com/problems/longest-repeating-character-replacement/description/
+Medium
+Topics
+Companies
+You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.
+
+Return the length of the longest substring containing the same letter you can get after performing the above operations.
+Example 1:
+
+Input: s = "ABAB", k = 2
+Output: 4
+Explanation: Replace the two 'A's with two 'B's or vice versa.
+Example 2:
+
+Input: s = "AABABBA", k = 1
+Output: 4
+Explanation: Replace the one 'A' in the middle with 'B' and form "AABBBBA".
+The substring "BBBB" has the longest repeating letters, which is 4.
+There may exists other ways to achieve this answer too.
+Constraints:
+
+1 <= s.length <= 105
+s consists of only uppercase English letters.
+0 <= k <= s.length
+
+Seen this question in a real interview before?
+1/5
+Yes
+No
+Accepted
+1M
+Submissions
+1.8M
+Acceptance Rate
+56.4%
+Topics
+Hash Table
+String
+Sliding Window
+"""
+
+# SOLTUION:
+
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        count = {}
+        res = 0
+        l = 0
+        maxf = 0
+        for r in range(len(s)):
+            count[s[r]] = 1 + count.get(s[r],0)
+            maxf = max(maxf,count[s[r]])
+            # window length - max frequency <= k
+            # while(r-l+1) - max(count.values()) > k:
+            while(r-l+1) - maxf > k:
+                count[s[l]] -= 1
+                l+=1
+            res = max(res,r-l+1)
+        return res
+        """
+        Time Complexity: O(n)
+
+This algorithm uses a sliding window approach with two pointers (l and r).
+The right pointer r iterates through each character of the string exactly once in the outer loop.
+The left pointer l may also move across the string, but each character is processed at most twice (once by each pointer).
+Operations inside the loops include:
+
+Dictionary updates: O(1)
+Finding the maximum frequency: Originally tracking maxf directly instead of recalculating max(count.values()) each time, which would be O(26) = O(1) for lowercase English letters
+Comparisons and integer operations: O(1)
+
+
+Therefore, the overall time complexity is O(n), where n is the length of the input string s.
+
+Space Complexity: O(min(n, 26)) = O(1)
+
+The algorithm uses a dictionary (count) to keep track of character frequencies.
+For a string with only lowercase English letters, there are at most 26 unique characters.
+Therefore, the space complexity is effectively O(1) since the dictionary size is bounded by the alphabet size."""
