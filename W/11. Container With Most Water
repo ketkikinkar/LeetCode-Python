@@ -1,0 +1,77 @@
+"""
+11. Container With Most Water
+Medium
+Topics
+Companies
+Hint
+You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
+
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+Return the maximum amount of water a container can store.
+
+Notice that you may not slant the container.
+
+ 
+
+Example 1:
+
+
+Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+Example 2:
+
+Input: height = [1,1]
+Output: 1
+Constraints:
+
+n == height.length
+2 <= n <= 105
+0 <= height[i] <= 104
+Seen this question in a real interview before?
+1/5
+Yes
+No
+Accepted
+3.8M
+Submissions
+6.7M
+Acceptance Rate
+57.2%
+Topics
+Companies
+Hint 1
+If you simulate the problem, it will be O(n^2) which is not efficient.
+Hint 2
+Try to use two-pointers. Set one pointer to the left and one to the right of the array. Always move the pointer that points to the lower line.
+Hint 3
+How can you calculate the amount of water at each step?
+"""
+
+# SOLUTION:
+
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        l, r = 0, len(height)-1
+        res = 0
+        while l < r:
+            area = (r - l)* min(height[l],height[r])
+            res = max(res, area)
+            if height[l] < height[r]:
+                l += 1
+            else:
+                r -= 1
+        return res
+        """ Time Complexity: O(n)
+
+This algorithm uses a two-pointer approach, starting from both ends of the array and moving inward.
+The pointers traverse the array exactly once (in the worst case), with each position being visited at most once.
+All operations inside the loop (calculating area, comparisons, pointer updates) take constant time.
+Therefore, the overall time complexity is O(n), where n is the length of the input array height.
+
+Space Complexity: O(1)
+
+The algorithm uses only a fixed number of variables (l, r, res, area) regardless of the input size.
+No additional data structures that scale with input size are created.
+The space used remains constant regardless of the array's length."""
