@@ -1,0 +1,113 @@
+"""
+76. Minimum Window Substring https://leetcode.com/problems/minimum-window-substring/description/
+Hard
+Topics
+Companies
+Hint
+Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+
+The testcases will be generated such that the answer is unique.
+
+ 
+
+Example 1:
+
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+Example 2:
+
+Input: s = "a", t = "a"
+Output: "a"
+Explanation: The entire string s is the minimum window.
+Example 3:
+
+Input: s = "a", t = "aa"
+Output: ""
+Explanation: Both 'a's from t must be included in the window.
+Since the largest window of s only has one 'a', return empty string.
+ 
+
+Constraints:
+
+m == s.length
+n == t.length
+1 <= m, n <= 105
+s and t consist of uppercase and lowercase English letters.
+ 
+
+Follow up: Could you find an algorithm that runs in O(m + n) time?
+
+
+Seen this question in a real interview before?
+1/5
+Yes
+No
+Accepted
+1.6M
+Submissions
+3.7M
+Acceptance Rate
+44.7%
+Topics
+Hash Table
+String
+Sliding Window
+Companies
+Hint 1
+Use two pointers to create a window of letters in s, which would have all the characters from t.
+Hint 2
+Expand the right pointer until all the characters of t are covered.
+Hint 3
+Once all the characters are covered, move the left pointer and ensure that all the characters are still covered to minimize the subarray size.
+Hint 4
+Continue expanding the right and left pointers until you reach the end of s.
+"""
+
+# SOLTUION:
+
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        if t == "" : return t
+        countT, window = {}, {}
+        
+        for c in t:
+            countT[c] = 1 + countT.get(c,0)
+        l=0
+        have, need = 0, len(countT)
+        res, resLen = [-1,-1], float("infinity")
+        for r in range(len(s)):
+            c = s[r]
+            window[c] = 1 + window.get(c,0)
+
+            if c in countT and window[c] == countT[c]:
+                have += 1
+            while have == need:
+                # update the result
+                if (r - l + 1) < resLen:
+                    res = [l,r]
+                    resLen = r-l+1
+                # pop form left of our window
+                window[s[l]] -= 1
+                if s[l] in countT and window[s[l]] < countT[s[l]]:
+                    have -= 1
+                l+=1
+        l, r = res
+        return s[l:r+1] if res != float("infinity") else ""
+
+        """
+        Time Complexity: O(n + m)
+
+The algorithm uses a sliding window approach with two pointers (l and r).
+First, we iterate through string t once to build the frequency map countT: O(m) where m is the length of t.
+The right pointer r iterates through each character of string s exactly once in the outer loop: O(n) where n is the length of s.
+The left pointer l may also move across the string, but each character is processed at most twice (once by each pointer).
+Operations inside the loops (dictionary updates, comparisons) take O(1) time.
+Therefore, the overall time complexity is O(n + m).
+
+Space Complexity: O(n + m)
+
+The algorithm uses two dictionaries:
+
+countT: Stores character frequencies of string t, which takes O(m) space in the worst case where all characters are unique.
+window: Stores character frequencies of the current window, which could take up to O(n) space in the worst case if all characters in the window are unique."""
