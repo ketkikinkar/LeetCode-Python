@@ -1,0 +1,67 @@
+"""
+242. Valid Anagram https://leetcode.com/problems/valid-anagram/description/
+Easy
+Topics
+Companies
+Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+Example 1:
+
+Input: s = "anagram", t = "nagaram"
+
+Output: true
+
+Example 2:
+
+Input: s = "rat", t = "car"
+Output: false
+Constraints:
+1 <= s.length, t.length <= 5 * 104
+s and t consist of lowercase English letters.
+Follow up: What if the inputs contain Unicode characters? How would you adapt your solution to such a case?
+Seen this question in a real interview before?
+1/5
+Yes
+No
+Accepted
+4.5M
+Submissions
+6.8M
+Acceptance Rate
+66.2%
+Topics
+Hash Table
+String
+Sorting
+"""
+
+# SOLTUION:
+
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        if len(s) != len(t): return False
+        countS, countT = {}, {}
+        for i in range(len(s)):
+            countS[s[i]] = 1 + countS.get(s[i],0)
+            countT[t[i]] = 1 + countT.get(t[i],0)
+        for c in countS:
+            if countS[c] != countT.get(c,0):
+                return False
+        return True
+        """
+        Time Complexity: O(n)
+
+This algorithm uses hash maps to count character frequencies in both strings.
+It first iterates through both strings simultaneously in a single loop to build the frequency maps: O(n) where n is the length of the strings.
+Then it iterates through the characters in the first string's frequency map, which in the worst case is O(n) if all characters are unique.
+All operations inside the loops (dictionary updates, comparisons) take O(1) time.
+Therefore, the overall time complexity is O(n).
+
+Space Complexity: O(k)
+
+The algorithm uses two dictionaries to store character frequencies.
+In the worst case, both dictionaries could contain all unique characters from the strings.
+For a fixed character set (like lowercase English letters), this would be O(26) = O(1).
+For a general alphabet with k possible unique characters, the space complexity is O(k).
+Since k is bounded by the length of the strings, we could also express this as O(min(n, k)).
+For practical purposes with standard character sets, this is effectively O(1).
+"""
