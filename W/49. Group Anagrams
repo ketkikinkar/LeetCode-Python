@@ -1,0 +1,86 @@
+"""
+49. Group Anagrams https://leetcode.com/problems/group-anagrams/description/
+Medium
+Topics
+Companies
+Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+
+ 
+
+Example 1:
+
+Input: strs = ["eat","tea","tan","ate","nat","bat"]
+
+Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+
+Explanation:
+
+There is no string in strs that can be rearranged to form "bat".
+The strings "nat" and "tan" are anagrams as they can be rearranged to form each other.
+The strings "ate", "eat", and "tea" are anagrams as they can be rearranged to form each other.
+Example 2:
+
+Input: strs = [""]
+
+Output: [[""]]
+
+Example 3:
+
+Input: strs = ["a"]
+
+Output: [["a"]]
+
+Constraints:
+
+1 <= strs.length <= 104
+0 <= strs[i].length <= 100
+strs[i] consists of lowercase English letters.
+
+Seen this question in a real interview before?
+1/5
+Yes
+No
+Accepted
+3.6M
+Submissions
+5.1M
+Acceptance Rate
+70.4%
+Topics
+Array
+Hash Table
+String
+Sorting
+"""
+
+# SOLTUION:
+
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        res = defaultdict(list)
+        for s in strs:
+            count = [0]*26 # a b c .. z
+            for c in s:
+                count[ord(c)-ord("a")] += 1
+            res[tuple(count)].append(s)
+        return list(res.values())
+        """
+        Time Complexity: O(n * k) where:
+
+n is the number of strings in the input array
+k is the maximum length of any string in the input array
+
+For each of the n strings, we:
+
+Create a character count array (O(1) as it's always size 26)
+Count each character in the string (O(k))
+Convert the count array to a tuple (O(1))
+Append the string to the corresponding list in the dictionary (O(1))
+Finally, we convert the dictionary values to a list (O(n))
+
+Space Complexity: O(n * k)
+
+We store all n input strings in our result structure
+In the worst case (when all strings are in different groups), we create n different keys in our dictionary
+Each key is a tuple of 26 integers (O(1) space per key)
+The total space taken by the values is proportional to the total length of all strings (O(n * k))"""
