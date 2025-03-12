@@ -1,0 +1,77 @@
+"""
+167. Two Sum II - Input Array Is Sorted
+
+Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be numbers[index1] and numbers[index2] where 1 <= index1 < index2 <= numbers.length.
+
+Return the indices of the two numbers, index1 and index2, added by one as an integer array [index1, index2] of length 2.
+
+The tests are generated such that there is exactly one solution. You may not use the same element twice.
+
+Your solution must use only constant extra space.
+Example 1:
+Input: numbers = [2,7,11,15], target = 9
+Output: [1,2]
+Explanation: The sum of 2 and 7 is 9. Therefore, index1 = 1, index2 = 2. We return [1, 2].
+Example 2:
+Input: numbers = [2,3,4], target = 6
+Output: [1,3]
+Explanation: The sum of 2 and 4 is 6. Therefore index1 = 1, index2 = 3. We return [1, 3].
+Example 3:
+Input: numbers = [-1,0], target = -1
+Output: [1,2]
+Explanation: The sum of -1 and 0 is -1. Therefore index1 = 1, index2 = 2. We return [1, 2].
+ 
+Constraints:
+2 <= numbers.length <= 3 * 104
+-1000 <= numbers[i] <= 1000
+numbers is sorted in non-decreasing order.
+-1000 <= target <= 1000
+The tests are generated such that there is exactly one solution.
+"""
+
+# SOLTUION:
+
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        l, r = 0, len(numbers) - 1
+        while l < r:
+            currSum = numbers[l] + numbers[r]
+            if currSum > target:
+                r -= 1
+            elif currSum < target:
+                l += 1
+            else:
+                return [l+1,r+1]
+    """ 
+    Time Complexity: O(n)
+
+The algorithm uses a two-pointer approach that makes a single pass through the array.
+The pointers (l and r) start at opposite ends of the array and move toward each other.
+In the worst case, we examine each element at most once, resulting in linear time complexity.
+
+Space Complexity: O(1)
+
+The algorithm uses only a constant amount of extra space regardless of input size.
+It maintains just two integer variables (l and r) as pointers and doesn't create any data structures that grow with input size.
+
+This two-pointer approach is efficient for sorted arrays, as it leverages the sorted property to eliminate portions of the search space at each step. """
+    
+
+"""
+The problem is solved using a two-pointer approach which is optimal for a sorted array. The main idea is to place one pointer at the beginning (l) and another at the end (r) of the array, then adjust these pointers based on their sum compared to the target."
+Explaining the Code:
+
+"I start with l at index 0 and r at the last index of the array. The while loop continues as long as l is less than r, ensuring that we don't use the same element twice."
+"Inside the loop, I calculate currSum, which is the sum of the elements at the pointers l and r. I compare currSum to the target to decide how to move the pointers. If currSum is greater than the target, it means we need a smaller sum, so I decrement r. Conversely, if currSum is less than the target, I increment l to get a larger sum."
+"Once currSum equals the target, I return the indices l + 1 and r + 1 because the problem is 1-indexed."
+Clarification of the Indexing:
+
+"It’s important to note that I return l + 1 and r + 1 because the problem statement specifies that the array is 1-indexed, which is a detail that should not be overlooked."
+Time and Space Complexity
+Time Complexity:
+
+"The time complexity of this algorithm is O(n), where n is the number of elements in the array. This efficiency is achieved by the two-pointer technique, which only requires a single pass through the array, moving each pointer at most n times."
+Space Complexity:
+
+"The space complexity is O(1), which means it uses a constant amount of space regardless of the input size. The only extra space used is for the two pointers, l and r, and a few variables for calculations, which do not scale with the size of the input array."
+"""
