@@ -1,0 +1,122 @@
+"""
+76. Minimum Window Substring https://leetcode.com/problems/minimum-window-substring/description/
+
+Solution
+Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+
+The testcases will be generated such that the answer is unique.
+
+Example 1:
+
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+Example 2:
+
+Input: s = "a", t = "a"
+Output: "a"
+Explanation: The entire string s is the minimum window.
+Example 3:
+
+Input: s = "a", t = "aa"
+Output: ""
+Explanation: Both 'a's from t must be included in the window.
+Since the largest window of s only has one 'a', return empty string.
+
+Constraints:
+
+m == s.length
+n == t.length
+1 <= m, n <= 105
+s and t consist of uppercase and lowercase English letters.
+
+Follow up: Could you find an algorithm that runs in O(m + n) time?
+
+   Hide Hint #1  
+Use two pointers to create a window of letters in s, which would have all the characters from t.
+   Hide Hint #2  
+Expand the right pointer until all the characters of t are covered.
+   Hide Hint #3  
+Once all the characters are covered, move the left pointer and ensure that all the characters are still covered to minimize the subarray size.
+   Hide Hint #4  
+Continue expanding the right and left pointers until you reach the end of s.
+"""
+
+# SOLTUION:
+
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        if t == "" : return t
+        countT, window = {}, {}
+        
+        for c in t:
+            countT[c] = 1 + countT.get(c,0)
+        l=0
+        have, need = 0, len(countT)
+        res, resLen = [-1,-1], float("infinity")
+        for r in range(len(s)):
+            c = s[r]
+            window[c] = 1 + window.get(c,0)
+
+            if c in countT and window[c] == countT[c]:
+                have += 1
+            while have == need:
+                # update the result
+                if (r - l + 1) < resLen:
+                    res = [l,r]
+                    resLen = r-l+1
+                # pop form left of our window
+                window[s[l]] -= 1
+                if s[l] in countT and window[s[l]] < countT[s[l]]:
+                    have -= 1
+                l+=1
+        l, r = res
+        return s[l:r+1] if res != float("infinity") else ""
+
+        """
+        Time Complexity: O(n + m)
+
+The algorithm uses a sliding window approach with two pointers (l and r).
+First, we iterate through string t once to build the frequency map countT: O(m) where m is the length of t.
+The right pointer r iterates through each character of string s exactly once in the outer loop: O(n) where n is the length of s.
+The left pointer l may also move across the string, but each character is processed at most twice (once by each pointer).
+Operations inside the loops (dictionary updates, comparisons) take O(1) time.
+Therefore, the overall time complexity is O(n + m).
+
+Space Complexity: O(n + m)
+
+The algorithm uses two dictionaries:
+
+countT: Stores character frequencies of string t, which takes O(m) space in the worst case where all characters are unique.
+window: Stores character frequencies of the current window, which could take up to O(n) space in the worst case if all characters in the window are unique."""
+        
+
+"""
+Problem Summary
+The problem is to find the smallest substring in s that contains all characters of t including duplicates. If no such substring exists, return an empty string.
+
+Solution Strategy
+The solution uses a sliding window approach with two pointers l (left) and r (right) to dynamically adjust the window on the string s until it contains all the necessary characters of t.
+
+Step-by-step Explanation
+Initialization:
+
+Check if t is empty. If yes, return an empty string immediately.
+Create two dictionaries: countT to store the frequency of each character in t, and window to track the frequency of characters in the current window of s.
+Initialize two pointers: l for the left end of the window and r for the right end.
+Variables have and need are used to track how many of the required characters we currently have in the window (have) versus how many are needed to satisfy the conditions (need is the number of unique characters in t).
+Expand the Window:
+
+As r traverses s, add characters to the window dictionary.
+If a character added from s matches one in countT and its count in window equals that in countT, increment the have counter.
+
+Contract the Window:
+Once all required characters are in the window (have == need), attempt to shrink the window from the left by moving l rightward.
+Before moving l, check if the substring from l to r is smaller than any previously found substring that meets the criteria.
+Reduce the count of the character at l in window.
+If this removal causes the window to no longer fulfill the requirement (the character count falls below what is needed), decrement have.
+
+Result Extraction:
+After the main loop completes, extract the substring using the indices stored in res. If no valid window is found, res remains at its initialized value which indicates infinity, and an empty string is returned.
+
+"""
