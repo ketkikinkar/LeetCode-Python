@@ -1,0 +1,78 @@
+"""
+11. Container With Most Water https://leetcode.com/problems/container-with-most-water/description/
+  Container With Most Water
+
+Solution
+You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
+
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+Return the maximum amount of water a container can store.
+
+Notice that you may not slant the container.
+Example 1:
+Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+Example 2:
+
+Input: height = [1,1]
+Output: 1
+
+Constraints:
+
+n == height.length
+2 <= n <= 105
+0 <= height[i] <= 104
+   Hide Hint #1  
+If you simulate the problem, it will be O(n^2) which is not efficient.
+   Hide Hint #2  
+Try to use two-pointers. Set one pointer to the left and one to the right of the array. Always move the pointer that points to the lower line.
+   Hide Hint #3  
+How can you calculate the amount of water at each step?
+"""
+
+# SOLUTION:
+
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        l, r = 0, len(height)-1
+        res = 0
+        while l < r:
+            area = (r - l)* min(height[l],height[r])
+            res = max(res, area)
+            if height[l] < height[r]:
+                l += 1
+            else:
+                r -= 1
+        return res
+    
+"""
+Follow-up Questions to Ask the Interviewer:
+Input Variability: Are the input arrays guaranteed to have unique values, or can they contain duplicates? How should the solution handle multiple pairs that yield the same maximum area?
+
+Walk-through of the Code Explanation for an Interview
+When explaining this code in an interview, your goal is to clearly articulate the logic, why you chose this approach, and how it works step by step. Here’s how you might explain it:
+
+"The problem is essentially about finding the maximum water that can be trapped between two lines on a linear graph, represented by an array of integers. The solution uses a two-pointer technique to efficiently find the maximum area.
+
+Initialization: I start by placing two pointers at the beginning and the end of the array. These pointers represent potential boundaries of the container.
+
+Calculating the Area: Inside a while loop, which runs until the two pointers meet, I calculate the area formed between the lines at the two pointers. The area is determined by the distance between the pointers (width) and the height of the shorter line, because the water level can only be as high as the shorter side.
+
+Updating Result: After calculating the area for the current pair of lines, I compare it with the current maximum area stored in a variable, updating it if the new area is larger.
+
+Moving Pointers: To potentially find a larger area, I then move the pointer pointing to the shorter line towards the other pointer. This is based on the rationale that moving the shorter line could lead to a taller line, thus increasing the potential area.
+
+Returning the Result: Once the pointers meet, the loop terminates, and I return the maximum area found."
+
+Time and Space Complexity
+Time Complexity: O(n)
+
+"The solution iterates through the array only once using two pointers moving towards each other. Each element in the array is accessed once in this process, leading to a linear time complexity relative to the size of the input."
+Space Complexity: O(1)
+
+"The space complexity is constant because the solution uses a fixed number of variables (the two pointers and the variable storing the maximum area). There are no additional data structures dependent on the input size, ensuring that the space requirement does not scale with the size of the input."
+
+
+"""
