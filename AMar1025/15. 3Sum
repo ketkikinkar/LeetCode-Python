@@ -1,0 +1,104 @@
+"""
+15. 3Sum https://leetcode.com/problems/3sum/description/
+
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+Notice that the solution set must not contain duplicate triplets.
+
+Example 1:
+
+Input: nums = [-1,0,1,2,-1,-4]
+Output: [[-1,-1,2],[-1,0,1]]
+Explanation: 
+nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.
+nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
+nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
+The distinct triplets are [-1,0,1] and [-1,-1,2].
+Notice that the order of the output and the order of the triplets does not matter.
+Example 2:
+
+Input: nums = [0,1,1]
+Output: []
+Explanation: The only possible triplet does not sum up to 0.
+Example 3:
+
+Input: nums = [0,0,0]
+Output: [[0,0,0]]
+Explanation: The only possible triplet sums up to 0.
+
+Constraints:
+
+3 <= nums.length <= 3000
+-105 <= nums[i] <= 105
+   Hide Hint #1  
+So, we essentially need to find three numbers x, y, and z such that they add up to the given value. If we fix one of the numbers say x, we are left with the two-sum problem at hand!
+   Hide Hint #2  
+For the two-sum problem, if we fix one of the numbers, say x, we have to scan the entire array to find the next number y, which is value - x where value is the input parameter. Can we change our array somehow so that this search becomes faster?
+   Hide Hint #3  
+The second train of thought for two-sum is, without changing the array, can we use additional space somehow? Like maybe a hash map to speed up the search?
+"""
+
+# SOLTUION:
+
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        nums.sort()
+        
+        for i, a in enumerate(nums):
+            if i > 0 and a == nums[i-1]:
+                continue
+            l, r = i+1, len(nums)-1
+            while l<r:
+                threeSum = a + nums[l] + nums[r]
+                if threeSum > 0:
+                    r -= 1
+                elif threeSum < 0:
+                    l += 1
+                else:
+                    res.append([a,nums[l],nums[r]])
+                    l += 1
+                    while nums[l] ==  nums[l-1] and l<r:
+                        l += 1
+            if a>0: break # I added this extra
+        return res
+        """
+        Time Complexity: O(n²)
+
+The initial sort operation takes O(n log n) time.
+The main algorithm has a nested loop structure:
+
+The outer loop iterates through each element (O(n))
+For each element, the inner two-pointer approach takes O(n) time
+Combined, this gives O(n²) operations
+
+
+Since O(n²) dominates O(n log n), the overall time complexity is O(n²).
+
+Space Complexity: O(1) or O(n)
+
+The sorting algorithm typically requires O(log n) or O(n) space depending on implementation.
+The result list res stores all found triplets, which could be O(n²) in the worst case (e.g., when most combinations form valid triplets).
+However, if we exclude the output space (since it's required to store the result), the algorithm itself uses O(1) auxiliary space.
+
+The optimization breaking the loop when a > 0 is a clever early termination technique that can significantly improve average performance for certain input distributions, but doesn't change the worst-case time complexity."""
+        
+"""
+Code Explanation for an Interview
+When explaining your code during an interview, aim to clearly describe each part of the process, focusing on how your solution addresses the problem efficiently. Here’s a structured way to explain the threeSum function:
+
+Introduction: "The threeSum function aims to find all unique triplets in the array which give the sum of zero. It's a classic problem that can be solved efficiently using a sorting-based two-pointer technique."
+
+Sorting: "First, I sort the array. Sorting is crucial as it allows us to skip duplicates easily and apply the two-pointer technique effectively by simplifying the comparison conditions."
+
+Loop Through Each Element: "Using a for-loop, I traverse through the sorted array. For each element, if it's the same as the previous one, I skip it to avoid duplicate triplets. This helps in only finding unique sets."
+
+Two-Pointer Technique: "For each unique element, I use a left and right pointer initialized at the positions immediately next to the element. I then look for two additional elements that, when added to the current element, sum up to zero."
+
+Finding Triplets: "Inside the while-loop, I calculate the sum of the elements at these three positions. If the sum is greater than zero, I move the right pointer leftward to reduce the sum. If it's less than zero, I move the left pointer rightward to increase the sum. If the sum is zero, I've found a valid triplet which I then add to the results."
+
+Avoiding Duplicate Triplets: "After finding a valid triplet, I increment the left pointer and continue skipping any duplicates to ensure all triplets in the result are unique."
+
+Early Termination: "The extra condition I added if a > 0: break helps in optimizing performance. Since the array is sorted, once the first number becomes positive, no further valid triplets can be found, allowing us to break out of the loop early in certain cases."
+
+"""
