@@ -1,0 +1,92 @@
+"""
+200. Number of Islands https://leetcode.com/problems/number-of-islands/description/
+
+Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
+
+An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+
+Example 1:
+
+Input: grid = [
+  ["1","1","1","1","0"],
+  ["1","1","0","1","0"],
+  ["1","1","0","0","0"],
+  ["0","0","0","0","0"]
+]
+Output: 1
+Example 2:
+
+Input: grid = [
+  ["1","1","0","0","0"],
+  ["1","1","0","0","0"],
+  ["0","0","1","0","0"],
+  ["0","0","0","1","1"]
+]
+Output: 3
+ 
+
+Constraints:
+
+m == grid.length
+n == grid[i].length
+1 <= m, n <= 300
+grid[i][j] is '0' or '1'.
+"""
+
+# SOLTUION:
+
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        if not grid:
+            return 0
+        rows, cols = len(grid), len(grid[0])
+        island = 0
+        def bfs(r,c):
+            q = collections.deque()
+            grid[r][c] = 0
+            q.append((r,c))
+            while q:
+                row, col = q.popleft() # curernt approach is bfs, if we want to do dfs then row, col = pop() from most right element
+                directions = [[1,0],[-1,0],[0,1],[0,-1]]
+                for dr, dc in directions:
+                    r,c = row+dr, col+dc
+                    if (r in range(rows) and 
+                        c in range(cols) and 
+                        grid[r][c]=="1"):
+                        q.append((r,c))
+                        grid[r][c]=0
+            
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] == "1":
+                    bfs(i,j)
+                    island += 1
+        return island
+    
+"""
+Code Explanation:
+Initial Check:
+
+The function starts by checking if the grid is empty. If it is, it immediately returns 0 since there are no islands.
+Variable Initialization:
+
+rows and cols store the dimensions of the grid.
+island is a counter initialized to 0, used to count the number of distinct islands.
+BFS Helper Function:
+
+bfs(r, c) is defined to explore and mark all parts of an island starting from cell (r, c).
+A deque q is initialized with the starting cell, which also gets marked as visited by setting it to '0' (water) to avoid revisiting.
+Within the BFS, the function processes each cell, exploring its four orthogonal neighbors (up, down, left, right).
+If a neighbor is within grid bounds and is land ('1'), it is enqueued for further exploration and also marked as '0'.
+Main Grid Traversal:
+
+The main part of the function iterates over every cell in the grid.
+Whenever it encounters an unvisited land cell ('1'), it triggers the bfs function from that cell, marking an entire island, and increments the island counter by 1.
+Complexity Analysis:
+Time Complexity: O(m * n)
+
+Where m is the number of rows and n is the number of columns in the grid. Each cell is processed once by the BFS. Changing a cell's state (from '1' to '0') ensures that each cell is enqueued and dequeued exactly once.
+Space Complexity: O(min(m, n))
+
+In the worst case, the maximum space used by the queue would be proportional to the size of the largest dimension of the grid (either all rows or all columns in the most skewed scenario). This happens when the BFS explores a very large contiguous area of land.
+"""
