@@ -1,0 +1,80 @@
+"""
+207. Course Schedule https://leetcode.com/problems/course-schedule/description/
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+
+For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+Return true if you can finish all courses. Otherwise, return false.
+
+Example 1:
+Input: numCourses = 2, prerequisites = [[1,0]]
+Output: true
+Explanation: There are a total of 2 courses to take. 
+To take course 1 you should have finished course 0. So it is possible.
+Example 2:
+
+Input: numCourses = 2, prerequisites = [[1,0],[0,1]]
+Output: false
+Explanation: There are a total of 2 courses to take. 
+To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
+
+Constraints:
+1 <= numCourses <= 2000
+0 <= prerequisites.length <= 5000
+prerequisites[i].length == 2
+0 <= ai, bi < numCourses
+All the pairs prerequisites[i] are unique.
+   Hide Hint #1  
+This problem is equivalent to finding if a cycle exists in a directed graph. If a cycle exists, no topological ordering exists and therefore it will be impossible to take all courses.
+   Hide Hint #2  
+Topological Sort via DFS - A great tutorial explaining the basic concepts of Topological Sort.
+   Hide Hint #3  
+Topological sort could also be done via BFS.
+"""
+
+# SOLUTION:
+
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        preMap = {i:[] for i in range(numCourses)}
+        for crs, pre in prerequisites:
+            preMap[crs].append(pre)
+        # visitSet = all courses along the curr dfs path
+        visitSet = set() 
+        def dfs(crs):
+            if crs in visitSet: #Cycle Detection 
+                return False
+            if preMap[crs] == []:
+                return True
+            visitSet.add(crs)
+            for pre in preMap[crs]:
+                if not dfs(pre): return False
+            visitSet.remove(crs)
+            preMap[crs] = []
+            return True
+        for crs in preMap:
+            if not dfs(crs): 
+                return False
+        return True
+    
+"""
+Time Complexity: O(V + E), where V is the number of courses (numCourses) and E is the number of dependencies (prerequisites.length). Each course and each dependency is processed once.
+Space Complexity: O(V + E) for storing the graph and additional O(V) for the recursion stack in DFS.
+
+Graph Construction:
+
+preMap: A dictionary where keys are course indices and values are lists of courses that need to be completed before the key course. It's filled using the prerequisites list.
+Cycle Detection via DFS:
+
+dfs(crs): A helper function that performs depth-first search to check if completing course crs leads to a cycle.
+If crs is already in visitSet (indicating it's being visited in the current DFS path), a cycle is detected, and False is returned.
+If crs has no prerequisites (empty list in preMap), it can be completed, so return True.
+If DFS on any prerequisite of crs returns False, then a cycle is detected, hence False is returned.
+After exploring all prerequisites, crs is removed from visitSet to backtrack, and its entry in preMap is cleared to mark it as fully processed.
+Main Execution Loop:
+
+Iterates through each course, using DFS to check for cycles starting from each course. If any course results in False, the overall function returns False.
+Output:
+
+Returns True if all courses can be completed (i.e., no cycles detected); otherwise, returns False.
+
+"""
