@@ -1,0 +1,62 @@
+"""
+103. Binary Tree Zigzag Level Order Traversal https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/description/
+Given the root of a binary tree, return the zigzag level order traversal of its nodes' values. (i.e., from left to right, then right to left for the next level and alternate between).
+Example 1:
+Input: root = [3,9,20,null,null,15,7]
+Output: [[3],[20,9],[15,7]]
+Example 2:
+
+Input: root = [1]
+Output: [[1]]
+Example 3:
+
+Input: root = []
+Output: []
+Constraints:
+
+The number of nodes in the tree is in the range [0, 2000].
+-100 <= Node.val <= 100
+"""
+
+# SOLTUION:
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        res = []
+        if not root: return res
+        q = collections.deque()
+        q.append(root)
+        while q:
+            level = []
+            for i in range(len(q)): # in python len(q) is not updated dynamically in range fn
+                node = q.popleft()
+                if node:
+                    level.append(node.val)
+                    if node.left:
+                        q.append(node.left)
+                    if node.right:
+                        q.append(node.right)
+            level = level[::-1] if len(res)%2 else level
+            res.append(level)
+        return res
+                
+                
+"""
+Key Components:
+
+Initialization: The function starts with a deque q initialized with the root node to handle the nodes level by level.
+Traversal Loop: As long as there are nodes in the deque, it processes each level by dequeuing nodes, collecting their values, and enqueuing their children.
+Direction Control: The direction of collecting node values alternates at each level. This is managed by checking the order of levels; if the current level index is odd, the collected values are reversed before appending to the result list.
+Result Compilation: Node values are gathered in a list level, which is appended to res after optional reversal based on the level's parity.
+
+Time Complexity: O(n)
+Reason: Each node in the binary tree is processed exactly once. Processing involves checking the node’s existence, accessing its value, and enqueuing its children if they exist. Since each operation inside the loop is constant time and each node is visited once, the overall time complexity is O(n), where n is the total number of nodes in the tree.
+Space Complexity: O(w)
+Reason: The primary space usage in this algorithm comes from the storage of nodes in the deque. In the worst-case scenario, the deque holds all nodes from the widest level of the tree simultaneously. The widest level can hold up to w is the maximum width of the tree. This typically occurs at the level closest to the middle of the tree, which can approach nodes in a balanced binary tree but will be less in sparse sections. Therefore, the space complexity is  O(w).
+""" 
