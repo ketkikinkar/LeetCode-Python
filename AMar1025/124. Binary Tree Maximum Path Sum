@@ -1,0 +1,78 @@
+"""
+124. Binary Tree Maximum Path Sum https://leetcode.com/problems/binary-tree-maximum-path-sum/description/
+
+A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence at most once. Note that the path does not need to pass through the root.
+
+The path sum of a path is the sum of the node's values in the path.
+
+Given the root of a binary tree, return the maximum path sum of any non-empty path.
+
+Example 1:
+Input: root = [1,2,3]
+Output: 6
+Explanation: The optimal path is 2 -> 1 -> 3 with a path sum of 2 + 1 + 3 = 6.
+Example 2:
+Input: root = [-10,9,20,null,null,15,7]
+Output: 42
+Explanation: The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 42.
+
+Constraints:
+
+The number of nodes in the tree is in the range [1, 3 * 104].
+-1000 <= Node.val <= 1000
+"""
+
+# SOLUTION:
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        res = [root.val]
+        #compute max path sum without split
+        def dfs(root):
+            if not root: 
+                return 0
+            leftMax = dfs(root.left)
+            rightMax = dfs(root.right)
+            leftMax = max(0, leftMax)
+            rightMax = max(0, rightMax)
+            #compute max path sum with split
+            res[0] = max(res[0], root.val + leftMax + rightMax)
+            return root.val + max(leftMax,rightMax)
+        dfs(root)
+        return res[0]
+
+"""
+1. Initialization:
+
+res is a list initialized with the root's value. This list acts as a wrapper to hold the maximum path sum found during the traversal. Using a list allows the value to be mutable and updated within the nested dfs function.
+2. Depth-First Search (DFS) Function:
+
+dfs(root): A recursive helper function that traverses the tree and calculates the maximum path sum that can be obtained from each subtree rooted at root.
+For each node, it computes two main values:
+leftMax: The maximum path sum from the left subtree.
+rightMax: The maximum path sum from the right subtree.
+Both leftMax and rightMax are compared against 0 to ensure that no path sum is less than 0, effectively ignoring paths that would decrease the total sum.
+3. Computing Path Sums:
+
+The function considers two situations for each node:
+Without Split: It returns the node's value plus the greater of the left or right subtree sums. This represents the maximum sum of a path extending from the current node upwards (used by the parent call).
+With Split: Updates res[0] to consider the possibility of the path passing through the current node and extending into both the left and right subtrees. This calculation is root.val + leftMax + rightMax.
+4. Return Value:
+
+After processing the entire tree, res[0] holds the highest path sum found, which is then returned as the final result.
+Key Points:
+Global Maximum Tracking: Uses a list res to keep track of the global maximum path sum encountered during the DFS.
+Path Sum Calculation: For each node, calculates potential maximum path sums including and excluding splits (using both children).
+Handling Negative Values: Ensures that paths contributing negatively are not considered by comparing subtree sums with zero.
+
+Time Complexity: O(n)
+Reason: The function traverses each node of the binary tree exactly once through the DFS (Depth-First Search) method. During each visit, it performs a constant amount of work including conditional checks and arithmetic operations. Here, n represents the total number of nodes in the tree. Therefore, the overall time complexity is linear relative to the number of nodes.
+Space Complexity: O(h)
+Reason: The space complexity is primarily determined by the height of the tree h because of the recursion stack used by the DFS. In the worst case, particularly in unbalanced trees, this height could be n (where every node has only one child). However, in a balanced tree, it would be log(n). This stack depth accounts for the recursive calls as the algorithm traverses from the root down to the deepest leaf node.
+"""
