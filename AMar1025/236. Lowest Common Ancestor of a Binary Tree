@@ -1,0 +1,77 @@
+"""
+236. Lowest Common Ancestor of a Binary Tree https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/
+Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+Example 1:
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+Output: 3
+Explanation: The LCA of nodes 5 and 1 is 3.
+Example 2:
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+Output: 5
+Explanation: The LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
+Example 3:
+
+Input: root = [1,2], p = 1, q = 2
+Output: 1
+Constraints:
+
+The number of nodes in the tree is in the range [2, 105].
+-109 <= Node.val <= 109
+All Node.val are unique.
+p != q
+p and q will exist in the tree.
+"""
+
+# SOLTUION:
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        self.ans = None
+        def dfs(cur):
+            if not cur:
+                return False
+            left = dfs(cur.left)
+            right = dfs(cur.right)
+            mid = cur==p or cur==q
+            if mid+left+right>=2:
+                self.ans=cur
+            return mid or left or right
+        dfs(root)
+        return self.ans
+    
+"""
+Time Complexity
+O(N): Each node in the tree is visited once, where N is the total number of nodes in the tree.
+Space Complexity
+O(H): Recursion stack space, where H is the height of the tree. In the worst case (a skewed tree), this could be O(N).
+
+Class and Method Definition:
+
+TreeNode: Defines a binary tree node with attributes for the node's value (val), and pointers to its left (left) and right (right) child nodes.
+lowestCommonAncestor: This is a method of the Solution class that takes three parameters: the root of the binary tree (root), and the two nodes (p and q) for which the LCA is to be found.
+2. Inner Function - dfs:
+
+Purpose: This recursive function performs a depth-first search starting from the given cur node.
+Parameters: cur, the current node being inspected.
+Process:
+Base Case: If cur is None, return False, indicating that neither p nor q has been found in this branch.
+Recursive Calls: Perform DFS on the left child (left = dfs(cur.left)) and the right child (right = dfs(cur.right)).
+Current Node Check: Determine if the current node is either p or q (mid = cur == p or cur == q).
+LCA Determination: If any two of the three flags (mid, left, right) are True, then the current node is an ancestor common to both p and q. If this is true at or above the threshold of two, self.ans is updated to cur.
+Return Value: Return True if the current node is p, q, or if either p or q was found in the left or right subtree (mid or left or right).
+3. Execution of dfs:
+
+The dfs function is called with the root of the tree, and it traverses the entire tree. The logic inside dfs ensures that once both nodes are found in any subtree, it stops updating self.ans because the check (mid + left + right >= 2) would only be true once when the true LCA is reached.
+The function ultimately returns self.ans, which would hold the LCA node.
+
+The line mid = cur == p or cur == q in the code is a boolean expression used to determine if the current node (cur) being inspected in the depth-first search (DFS) is either of the two nodes (p or q) for which the Lowest Common Ancestor (LCA) is being sought. 
+"""
