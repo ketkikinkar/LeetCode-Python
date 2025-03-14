@@ -1,0 +1,59 @@
+"""
+22. Generate Parentheses https://leetcode.com/problems/generate-parentheses/description/
+Solution
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+Example 1:
+Input: n = 3
+Output: ["((()))","(()())","(())()","()(())","()()()"]
+Example 2:
+Input: n = 1
+Output: ["()"]
+Constraints:
+1 <= n <= 8
+"""
+
+# SOLTUION: READ TIME COMPLEXITY
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        stack = []
+        res = []
+        
+        def backtrack(openN, closeN): 
+            if openN == closeN == n:
+                res.append("".join(stack))
+                return
+            if openN<n:
+                stack.append("(")
+                backtrack(openN+1,closeN)
+                stack.pop()
+            if closeN<openN:
+                stack.append(")")
+                backtrack(openN,closeN+1)
+                stack.pop()
+        backtrack(0,0)
+        return res
+"""
+Initialization:
+
+stack: A list used to build up the current string of parentheses.
+res: A list that will store all the valid combinations of well-formed parentheses.
+Backtracking Function (backtrack):
+
+This is a recursive function defined within generateParenthesis.
+It takes two parameters, openN and closeN, which track the number of open "(" and close ")" parentheses used so far.
+Backtracking Logic:
+
+Base Case: If both openN and closeN are equal to n, it means a valid combination is formed because it has used all n open and n close parentheses. This combination is added to the res list.
+Recursive Case:
+If openN is less than n, it implies that more open parentheses can be added. The code adds an open parenthesis to the stack, calls the backtrack function recursively by incrementing openN, and then removes the last added parenthesis (to explore other possibilities).
+If closeN is less than openN, it implies that a close parenthesis can be added (note: close parenthesis can only be added if it does not exceed the number of open parentheses to maintain balance). The code adds a close parenthesis, calls backtrack recursively by incrementing closeN, and then removes the parenthesis.
+Execution Start:
+
+The backtrack function is initially called with both openN and closeN set to 0.
+Return:
+
+After all recursive calls complete, the res list, which now contains all possible well-formed combinations of parentheses, is returned.
+
+Time complexity: O(4"n / (n)^1/n)
+Space = O(n)
+"""
