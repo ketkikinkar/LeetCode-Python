@@ -1,0 +1,86 @@
+"""
+733. Flood Fill
+You are given an image represented by an m x n grid of integers image, where image[i][j] represents the pixel value of the image. You are also given three integers sr, sc, and color. Your task is to perform a flood fill on the image starting from the pixel image[sr][sc].
+
+To perform a flood fill
+Begin with the starting pixel and change its color to color.
+Perform the same process for each pixel that is directly adjacent (pixels that share a side with the original pixel, either horizontally or vertically) and shares the same color as the starting pixel.
+Keep repeating this process by checking neighboring pixels of the updated pixels and modifying their color if it matches the original color of the starting pixel.
+The process stops when there are no more adjacent pixels of the original color to update.
+Return the modified image after performing the flood fill.
+Example 1:
+Input: image = [[1,1,1],[1,1,0],[1,0,1]], sr = 1, sc = 1, color = 2
+Output: [[2,2,2],[2,2,0],[2,0,1]]
+
+Explanation:
+From the center of the image with position (sr, sc) = (1, 1) (i.e., the red pixel), all pixels connected by a path of the same color as the starting pixel (i.e., the blue pixels) are colored with the new color.
+
+Note the bottom corner is not colored 2, because it is not horizontally or vertically connected to the starting pixel.
+
+Example 2:
+
+Input: image = [[0,0,0],[0,0,0]], sr = 0, sc = 0, color = 0
+
+Output: [[0,0,0],[0,0,0]]
+
+Explanation:
+The starting pixel is already colored with 0, which is the same as the target color. Therefore, no changes are made to the image.
+
+Constraints:
+m == image.length
+n == image[i].length
+1 <= m, n <= 50
+0 <= image[i][j], color < 216
+0 <= sr < m
+0 <= sc < n
+"""
+
+# SOLTUION:
+
+class Solution:
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
+        if image[sr][sc] == color:
+            return image
+        old_color = image[sr][sc]
+        rows, cols = len(image), len(image[0])
+        def dfs(r,c):
+            if image[r][c] == old_color:
+                image[r][c]=color
+                if r+1<rows:
+                    dfs(r+1,c)
+                if c+1<cols:
+                    dfs(r,c+1)
+                if r-1>=0:
+                    dfs(r-1,c)
+                if c-1>=0:
+                    dfs(r,c-1)
+
+        dfs(sr,sc)
+        return image
+        # T O(mn)
+"""
+Initial Checks: The function first checks if the starting pixel (located at the coordinates sr and sc) is already the target color. If it is, the image is returned immediately without any changes because there is nothing to modify.
+
+Setup and Definitions:
+
+old_color: This stores the color of the pixel at the starting position (sr, sc). This color will be used to identify which adjacent pixels need to be changed.
+rows and cols: These variables store the dimensions of the image to avoid recalculating them multiple times and to make the code cleaner.
+dfs (Depth-First Search): A nested helper function defined to apply the flood fill recursively. It checks if the current pixel matches the old_color and then changes it to color.
+Recursive Depth-First Search:
+
+Inside dfs, if the current pixel's color matches the old_color, it's set to the new color.
+The function then recursively calls itself for the four possible adjacent pixels (up, down, left, right), but only if they lie within the valid range of the image's indices.
+r+1 < rows: Ensures the pixel below is within vertical bounds.
+c+1 < cols: Ensures the pixel to the right is within horizontal bounds.
+r-1 >= 0: Ensures the pixel above is within vertical bounds.
+c-1 >= 0: Ensures the pixel to the left is within horizontal bounds.
+Execution and Return:
+
+The dfs function is initially called with the starting pixel coordinates sr and sc.
+After the recursive filling is complete, the modified image is returned.
+Time Complexity:
+
+The time complexity is O(mn), where m is the number of rows and n is the number of columns in the image. This is because, in the worst case, every pixel in the image might need to be visited once.
+
+Space complexity of the provided floodFill method is O(m * n) in the worst case due to the potential size of the recursion stack. If you're working with constraints where recursion depth might be an issue, considering an iterative solution with an explicit stack might be necessary to avoid stack overflow.
+"""
