@@ -1,0 +1,62 @@
+"""
+2. Add Two Numbers https://leetcode.com/problems/add-two-numbers/description/
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+Example 1:
+Input: l1 = [2,4,3], l2 = [5,6,4]
+Output: [7,0,8]
+Explanation: 342 + 465 = 807.
+Example 2:
+Input: l1 = [0], l2 = [0]
+Output: [0]
+Example 3:
+
+Input: l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
+Output: [8,9,9,9,0,0,0,1]
+
+Constraints:
+
+The number of nodes in each linked list is in the range [1, 100].
+0 <= Node.val <= 9
+It is guaranteed that the list represents a number that does not have leading zeros.
+"""
+
+# SOLTUION:
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = ListNode()
+        cur = dummy
+        carry = 0
+        while l1 or l2 or carry:
+            v1 = l1.val if l1 else 0
+            v2 = l2.val if l2 else 0
+            # new digit
+            val = v1 + v2 + carry
+            carry = val // 10
+            val = val % 10
+            cur.next = ListNode(val)
+            #update cur pointer
+            cur = cur.next
+            l1 = l1.next if l1 else None
+            l2 = l2.next if l2 else None
+        return dummy.next
+            
+"""
+Time complexity : O(max(m,n)). Assume that m and n represents the length of l1 and l2 respectively, the algorithm above iterates at most max(m,n) times.
+
+Space complexity : O(1). The length of the new list is at most max(m,n)+1 However, we don't count the answer as part of the space complexity.
+
+This solution adds two numbers represented by linked lists, where each node contains a single digit, and the digits are stored in reverse order. To solve this, I use a dummy node to simplify the head insertion process in the resulting sum list. I maintain a 'carry' variable to handle the carry-over for each digit addition.
+
+The main loop continues until all elements of both lists are processed, or there is no carry left. Inside the loop, I extract the values from the current nodes of both lists, defaulting to 0 if a list has been fully traversed. I then calculate the sum of these values plus any carry, update the carry for the next iteration, and create a new node with the resulting digit. This node is added to the linked list growing from the dummy node.
+
+The process continues until no nodes and no carry remain. Finally, the linked list starting from the node next to the dummy node is returned, which contains the sum of the two numbers in the correct form. This approach ensures the function efficiently handles numbers of varying lengths and scales without converting the entire lists to integers, which is especially useful for very large numbers."
+"""
+        
