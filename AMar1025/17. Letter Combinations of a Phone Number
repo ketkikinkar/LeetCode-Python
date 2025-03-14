@@ -1,0 +1,77 @@
+"""
+17. Letter Combinations of a Phone Number https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/
+Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.
+
+A mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+Example 1:
+Input: digits = "23"
+Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+Example 2:
+Input: digits = ""
+Output: []
+Example 3:
+Input: digits = "2"
+Output: ["a","b","c"]
+
+Constraints:
+
+0 <= digits.length <= 4
+digits[i] is a digit in the range ['2', '9'].
+"""
+
+# SOLUTION:
+
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        res = []
+        digitToChar = {"2":"abc",
+                      "3":"def",
+                      "4":"ghi", "5":"jkl","6":"mno",
+                       "7":"pqrs","8":"tuv","9":"wxyz"}
+        def backtrack(i,curStr):
+            if i == len(digits):
+                res.append(curStr)
+                return
+            for c in digitToChar[digits[i]]:
+                backtrack(i+1,curStr+c)
+        if digits:
+            backtrack(0,"")
+        return res
+"""
+Initialization:
+res: A list to store the resulting combinations.
+digitToChar: A dictionary mapping each digit (2-9) to the corresponding letters, similar to the layout of letters on a telephone keypad.
+Backtracking Function (backtrack):
+
+This recursive function is designed to generate combinations by exploring each character that can be mapped from the current digit and then moving to the next digit.
+i: The current position in the input digits string.
+curStr: The string being constructed as potential output.
+The function checks if the length of curStr matches the length of digits (base case), meaning a complete combination has been formed, which is then added to res.
+If not, it recursively calls itself for the next position in the digits string, appending each possible character to the current string (curStr).
+Execution Check:
+
+The algorithm starts the backtracking process only if the input string digits is not empty, avoiding unnecessary operations for empty input.
+Return Statement:
+
+Finally, it returns the list res which contains all the letter combinations formed from the input digits.
+Workflow of the Code:
+When the function is called, it initializes the necessary data structures.
+If the input is not empty, it starts the backtracking process from the first digit (index 0) with an empty string.
+As it progresses through each digit, it explores all possible letters associated with that digit, making recursive calls to continue building the string.
+Once a complete combination is formed (when the current string's length equals the digits string's length), it's added to the results list.
+This process repeats until all combinations are explored and generated.
+
+
+Time Complexity Clarification
+Your explanation that the time complexity can be represented as O(N.4^N) is spot-on for cases where the digit mappings result in the maximum number of combinations. Here's why:
+
+Maximum Branching Factor (4): The maximum number of characters that any digit can map to in the provided dictionary is 4 (for digits '7' and '9'). Each digit can hence branch out into up to 4 recursive calls.
+Length Factor (N): For each combination, constructing the string itself (i.e., curStr+c in the recursive call) takes a time proportional to the number of digits, N, because each function call appends one character and this operation may involve creating a new string depending on Python's implementation details.
+
+Space Complexity Clarification
+The space complexity assessment of O(N) focuses on the recursive call stack:
+
+Call Stack Depth: Since the recursive function backtrack is called once per digit, and it only goes deeper until it has processed all digits, the maximum depth of the recursion tree (and hence the call stack) is N, where N is the number of digits. This represents the space needed to store the function call context at each level of recursion.
+
+Output Space Exclusion: Your note about excluding the space used for the output (res) in the calculation of space complexity is important. 
+"""
