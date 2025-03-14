@@ -1,0 +1,80 @@
+"""
+79. Word Search
+Given an m x n grid of characters board and a string word, return true if word exists in the grid.
+
+The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
+Example 1:
+Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+Output: true
+Example 2:
+Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "SEE"
+Output: true
+Example 3:
+Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCB"
+Output: false
+
+Constraints:
+
+m == board.length
+n = board[i].length
+1 <= m, n <= 6
+1 <= word.length <= 15
+board and word consists of only lowercase and uppercase English letters.
+
+Follow up: Could you use search pruning to make your solution faster with a larger board?
+"""
+
+# SOLTUION:
+
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        rows, cols = len(board), len(board[0])
+        path = set()
+        def dfs(r,c,i):
+            if i == len(word):
+                return True
+            if (r<0 or r>= rows or c<0 or c>= cols or board[r][c]!= word[i] or (r,c) in path):
+                return False
+            path.add((r,c))
+            res = (dfs(r+1,c,i+1) or
+                  dfs(r-1,c,i+1) or
+                  dfs(r,c+1,i+1) or
+                  dfs(r,c-1,i+1))
+            path.remove((r,c))
+            return res
+        
+        for r in range(rows):
+            for c in range(cols):
+                if dfs(r,c,0): return True
+        return False
+    
+"""
+Initialization: The function starts by determining the dimensions of the board (rows and cols).
+
+Helper Function (DFS):
+
+The dfs function is a recursive method that performs the depth-first search. It takes the current row (r), column (c), and index (i) in the word as parameters.
+Base Case: If i equals the length of word, it means all characters have been found in the correct sequence, so it returns True.
+Boundary and Condition Checks: It checks if the current cell is out of the board's bounds, if the character in the current cell does not match the character in word at index i, or if the cell has already been used in the current path (using a set path to track visited cells).
+Explore Neighbors: If the current cell is valid, it adds the cell to path and recursively explores all four possible directions (up, down, left, right). If any of these recursive calls return True, the function captures this in res and will propagate this True value up the call stack.
+Backtracking: After exploring all possibilities from the current cell, it is removed from path to allow other potential uses in different DFS paths.
+Iterating Over the Board:
+
+The function iterates over each cell in the board. If the dfs starts from a cell and returns True, it immediately returns True for the entire function, indicating the word can be formed starting from that cell.
+If no starting cell results in a successful search, the function returns False.
+Efficiency and Pruning:
+
+The given constraints (board size up to 6x6 and word length up to 15) make this approach feasible within reasonable execution times due to the small search space.
+For larger boards, optimizations such as checking if the board contains all the characters in word before starting the DFS, or pruning paths earlier based on the characters remaining in the word, could be implemented. You could also limit the recursion depth based on the length of the word left to check, or use a more sophisticated heuristic to choose the starting points for the DFS (e.g., starting from cells that match the first character of the word).
+
+
+Time Complexity: O(N.3^L) where N is the number of cells in the board and L is the length of the word to be matched.
+
+For the backtracking function, initially we could have at most 4 directions to explore, but further the choices are reduced into 3 (since we won't go back to where we come from).
+As a result, the execution trace after the first step could be visualized as a 3-nary tree, each of the branches represent a potential exploration in the corresponding direction. Therefore, in the worst case, the total number of invocation would be the number of nodes in a full 3-nary tree, which is about 3^L
+We iterate through the board for backtracking, i.e. there could be N times invocation for the backtracking function in the worst case.
+
+Space Complexity: O(L) where L is the length of the word to be matched.
+
+The main consumption of the memory lies in the recursion call of the backtracking function. The maximum length of the call stack would be the length of the word. Therefore, the space complexity of the algorithm is O(L).
+"""
