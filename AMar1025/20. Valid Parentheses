@@ -1,0 +1,69 @@
+"""
+20. Valid Parentheses
+Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+An input string is valid if:
+
+Open brackets must be closed by the same type of brackets.
+Open brackets must be closed in the correct order.
+Every close bracket has a corresponding open bracket of the same type.
+ 
+
+Example 1:
+
+Input: s = "()"
+
+Output: true
+
+Example 2:
+
+Input: s = "()[]{}"
+
+Output: true
+
+Example 3:
+
+Input: s = "(]"
+
+Output: false
+
+Example 4:
+
+Input: s = "([])"
+
+Output: true
+
+Constraints:
+
+1 <= s.length <= 104
+s consists of parentheses only '()[]{}'.
+   Hide Hint #1  
+Use a stack of characters.
+   Hide Hint #2  
+When you encounter an opening bracket, push it to the top of the stack.
+   Hide Hint #3  
+When you encounter a closing bracket, check if the top of the stack was the opening for it. If yes, pop it from the stack. Otherwise, return false.
+
+"""
+
+# SOLTION:
+
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack = []
+        hashp = {")":"(","}":"{","]":"["}
+        for p in s:
+            if p in hashp:
+                if not stack or stack[-1]!=hashp[p]:
+                    return False
+                stack.pop()
+            else:
+                stack.append(p)
+        return not stack
+                    
+"""
+Complexity analysis
+
+Time complexity : O(n) because we simply traverse the given string one character at a time and push and pop operations on a stack take O(1) time.
+Space complexity : O(n) as we push all opening brackets onto the stack and in the worst case, we will end up pushing all the brackets onto the stack. e.g. ((((((((((.
+"""
