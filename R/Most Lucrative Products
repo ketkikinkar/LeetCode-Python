@@ -39,3 +39,20 @@ online_orders %>%
     mutate(rnk = row_number(desc(revenue))) %>%
     filter(rnk <= 5) %>%
     select(product_id, revenue)
+
+
+
+OR
+
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(airbnb_search_details)
+
+result <- airbnb_search_details %>%
+    group_by(city, property_type) %>%
+    summarise(n_bedrooms_avg = mean(bedrooms), n_bathrooms_avg = mean(bathrooms)) %>%
+    select(city,property_type,n_bedrooms_avg,n_bathrooms_avg)
+    # rename(city=city, property_type = property_type)
