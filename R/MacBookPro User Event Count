@@ -1,0 +1,38 @@
+MacBookPro User Event Count
+
+Apple
+Easy
+ID 9653
+
+147
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Count the number of user events performed by MacBookPro users.
+Output the result along with the event name.
+Sort the result based on the event count in the descending order.
+
+Table: playbook_events
+Hints
+Expected Output
+playbook_events
+Preview
+user_id	occurred_at	event_type	event_name	location	device
+6991	2014-06-09 18:26:54	engagement	home_page	United States	iphone 5
+18851	2014-08-29 13:18:38	signup_flow	enter_info	Russia	asus chromebook
+14998	2014-07-01 12:47:56	engagement	login	France	hp pavilion desktop
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(playbook_events)
+result <- playbook_events %>%
+            filter(device == 'macbook pro') %>%
+            group_by(event_name) %>%
+            summarise(event_count = n()) %>%
+            arrange(desc(event_count)) %>%
+            rename(size = event_count)
