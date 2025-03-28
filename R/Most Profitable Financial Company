@@ -1,0 +1,33 @@
+Most Profitable Financial Company
+Forbes
+Easy
+ID 9663
+
+135
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Find the most profitable company from the financial sector. Output the result along with the continent.
+
+Table: forbes_global_2010_2014
+Hints
+Expected Output
+forbes_global_2010_2014
+Preview
+rank	company	sector	industry	continent	country	marketvalue	sales	profits	assets
+1	ICBC	Financials	Major Banks	Asia	China	215.6	148.7	42.7	3124.9
+4	China Construction Bank	Financials	Regional Banks	Asia	China	174.4	121.3	34.2	2449.5
+8	Agricultural Bank of China	Financials	Regional Banks	Asia	China	141.1	136.4	27	2405.4
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(forbes_global_2010_2014)
+
+finance_sector <- forbes_global_2010_2014[forbes_global_2010_2014$sector == "Financials",]
+finance_sector$rank <- rank(-finance_sector$profits,ties.method='min')
+result <- finance_sector[finance_sector$rank==1, c("company","continent")]
