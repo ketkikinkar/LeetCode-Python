@@ -1,0 +1,36 @@
+Unique Users Per Client Per Month
+Apple
+Dell
+Microsoft
+Easy
+ID 2024
+
+186
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Write a query that returns the number of unique users per client per month.
+
+Table: fact_events
+Hints
+Expected Output
+fact_events
+Preview
+id	event_id	time_id	user_id	customer_id	client_id	event_type
+1	3	2020-02-28 00:00:00	3668-QPYBK	Sendit	desktop	message sent
+2	2	2020-02-28 00:00:00	7892-POOKP	Connectix	mobile	file received
+3	7	2020-04-03 00:00:00	9763-GRSKD	Zoomit	desktop	video call received
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(fact_events)
+
+result <- fact_events %>%
+    group_by(client_id,month = month(time_id)) %>%
+    summarise(user_num = n_distinct(user_id)) %>%
+    ungroup()
