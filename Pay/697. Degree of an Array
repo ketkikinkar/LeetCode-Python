@@ -1,0 +1,64 @@
+697. Degree of an Array
+
+Easy
+Topics
+Companies
+Hint
+Given a non-empty array of non-negative integers nums, the degree of this array is defined as the maximum frequency of any one of its elements.
+
+Your task is to find the smallest possible length of a (contiguous) subarray of nums, that has the same degree as nums.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,2,3,1]
+Output: 2
+Explanation: 
+The input array has a degree of 2 because both elements 1 and 2 appear twice.
+Of the subarrays that have the same degree:
+[1, 2, 2, 3, 1], [1, 2, 2, 3], [2, 2, 3, 1], [1, 2, 2], [2, 2, 3], [2, 2]
+The shortest length is 2. So return 2.
+Example 2:
+
+Input: nums = [1,2,2,3,1,4,2]
+Output: 6
+Explanation: 
+The degree is 3 because the element 2 is repeated 3 times.
+So [2,2,3,1,4,2] is the shortest subarray, therefore returning 6.
+ 
+
+Constraints:
+
+nums.length will be between 1 and 50,000.
+nums[i] will be an integer between 0 and 49,999.
+Seen this question in a real interview before?
+1/5
+Yes
+No
+Accepted
+240.3K
+Submissions
+420.3K
+Acceptance Rate
+57.2%
+
+class Solution:
+    def findShortestSubArray(self, nums: List[int]) -> int:
+        hashn = {}
+        maxocc = 0
+        res = float("inf")
+        for i,n in enumerate(nums):
+            if n not in hashn:
+                hashn[n]=[]
+            hashn[n].append(i)
+            if len(hashn[n]) > maxocc:
+                maxocc = len(hashn[n])
+        for v in hashn.values():
+            if len(v)==maxocc:
+                c = max(v)- min(v) + 1
+                res = min(res,c)
+        return res
+        
+# T O(n)
+# S O(n)
