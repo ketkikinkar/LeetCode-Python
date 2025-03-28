@@ -1,0 +1,59 @@
+Churro Activity Date
+City of Los Angeles
+Easy
+ID 9688
+
+104
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Software Engineer
+Find the inspection date and risk category (pe_description) of facilities named 'STREET CHURROS' that received a score below 95.
+
+Table: los_angeles_restaurant_health_inspections
+Hints
+Expected Output
+Hint #1
+To find the activity date and pe_description of facilities with the name 'STREET CHURROS' and with a score of less than 95 points, we can use the dplyr package in R.
+
+Hint #2
+Keep going! In the first step, we need to filter the dataset to only include rows where the facility_name is "STREET CHURROS" and the score is less than 95. We can use the filter() function from dplyr to do this.
+
+
+filter(facility_name == "STREET CHURROS" & score < 95)
+Hint #3
+Well done! In the final step, we need to select only the activity_date and pe_description columns from the filtered dataset. We can use the select() function from dplyr to do this.
+
+
+select(activity_date, pe_description)
+The complete code snippet is:
+
+
+library(dplyr)
+library(tidyr)
+
+result <- los_angeles_restaurant_health_inspections %>%
+    filter(facility_name == "STREET CHURROS" & score < 95) %>%
+    select(activity_date, pe_description) %>%
+    mutate(activity_date = strftime(as.Date(activity_date), format = "%Y-%m-%d"))
+los_angeles_restaurant_health_inspections
+Preview
+score	service_code	program_element_pe	serial_number	activity_date	facility_name	grade	service_description	employee_id	facility_address	facility_city	facility_id	facility_state	facility_zip	owner_id	owner_name	pe_description	program_name	program_status	record_id
+93	1	1638	DAQHRSETQ	2017-06-08 00:00:00	MARGARITAS CAFE	A	ROUTINE INSPECTION	EE0000006	5026 S CRENSHAW BLVD	LOS ANGELES	FA0023656	CA	90043	OW0004133	BAZAN, ASCENCION	RESTAURANT (61-150) SEATS HIGH RISK	MARGARITAS CAFE	ACTIVE	PR0011718
+97	1	1632	DA2GQRJOS	2017-03-07 00:00:00	LAS MOLENDERAS	A	ROUTINE INSPECTION	EE0000997	2635 WHITTIER BLVD	LOS ANGELES	FA0160416	CA	90023	OW0125379	MARISOL FEREGRINO	RESTAURANT (0-30) SEATS HIGH RISK	LAS MOLENDERAS	INACTIVE	PR0148504
+93	1	1631	DAMQTA46T	2016-03-22 00:00:00	SANDRA'S TAMALES	A	ROUTINE INSPECTION	EE0001049	5390 WHITTIER BLVD	LOS ANGELES	FA0171769	CA	90022-4032	OW0178828	SANDRA'S TAMALES INC.	RESTAURANT (0-30) SEATS MODERATE RISK	SANDRA'S TAMALES	ACTIVE	PR0164225
+97	1	1638	DAXMBTIRZ	2018-02-12 00:00:00	CAFE GRATITUDE	A	ROUTINE INSPECTION	EE0000828	639 N LARCHMONT BLVD STE #102	LOS ANGELES	FA0058921	CA	90004	OW0005704	CAFE GRATITUDE LARCHMONT LLC	RESTAURANT (61-150) SEATS HIGH RISK	CAFE GRATITUDE	ACTIVE	PR0019854
+
+
+# Import your libraries
+library(dplyr)
+library(tidyr)
+# Start writing code
+head(los_angeles_restaurant_health_inspections)
+result <- los_angeles_restaurant_health_inspections %>%
+                filter(facility_name == 'STREET CHURROS' & score<95) %>%
+                select(activity_date,pe_description) %>%
+                mutate(activity_date =strftime(as.Date(activity_date),format = "%Y-%m-%d"))
