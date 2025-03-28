@@ -1,0 +1,37 @@
+Number of Shipments Per Month
+
+Amazon
+Easy
+ID 2056
+
+156
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Software Engineer
+Write a query that will calculate the number of shipments per month. The unique key for one shipment is a combination of shipment_id and sub_id. Output the year_month in format YYYY-MM and the number of shipments in that month.
+
+Table: amazon_shipment
+Hints
+Expected Output
+amazon_shipment
+Preview
+shipment_id	sub_id	weight	shipment_date
+101	1	10	2021-08-30 00:00:00
+101	2	20	2021-09-01 00:00:00
+101	3	10	2021-09-05 00:00:00
+102	1	50	2021-09-02 00:00:00
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(amazon_shipment)
+amazon_shipment %>%
+    mutate(year_month= format(as.Date(shipment_date),"%Y-%m")) %>%
+    group_by(year_month) %>%
+    summarise(count = n_distinct(paste(shipment_id,sub_id))) %>%
+    ungroup()
