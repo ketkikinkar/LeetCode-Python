@@ -53,3 +53,5 @@ class Solution:
             else:
                 r -= 1
         return False
+# The time complexity of the code is O(R + C).
+# The space complexity of the code is O(1).
