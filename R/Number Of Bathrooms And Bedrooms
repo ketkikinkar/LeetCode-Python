@@ -1,0 +1,33 @@
+Number Of Bathrooms And Bedrooms
+
+Easy
+ID 9622
+
+226
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Find the average number of bathrooms and bedrooms for each city’s property types. Output the result along with the city name and the property type.
+
+Table: airbnb_search_details
+Hints
+Expected Output
+airbnb_search_details
+Preview
+id	accommodates	bathrooms	number_of_reviews	zipcode	bedrooms	beds	price	property_type	room_type	amenities	bed_type	cancellation_policy	cleaning_fee	city	host_identity_verified	host_response_rate	host_since	neighbourhood	review_scores_rating
+12513361	2	1	3	10029	0	1	555.68	Apartment	Entire home/apt	{TV,"Wireless Internet","Air conditioning","Smoke detector","Carbon monoxide detector",Essentials,"Lock on bedroom door",Hangers,Iron}	Real Bed	flexible	FALSE	NYC	t	89%	2015-11-18 00:00:00	East Harlem	87
+7196412	2	3	14	91606	1
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(airbnb_search_details)
+
+result <- airbnb_search_details %>%
+    group_by(city, property_type) %>%
+    summarise(n_bedrooms_avg = mean(bedrooms), n_bathrooms_avg = mean(bathrooms)) %>%
+    rename(city=city, property_type = property_type)
