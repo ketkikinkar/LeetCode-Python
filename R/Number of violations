@@ -1,0 +1,38 @@
+Number of violations
+City of San Francisco
+Easy
+ID 9728
+
+84
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+You are given a dataset of health inspections that includes details about violations. Each row represents an inspection, and if an inspection resulted in a violation, the violation_id column will contain a value.
+
+
+Count the total number of violations that occurred at 'Roxanne Cafe' for each year, based on the inspection date. Output the year and the corresponding number of violations in ascending order of the year.
+
+Table: sf_restaurant_health_violations
+Hints
+Expected Output
+sf_restaurant_health_violations
+Preview
+business_id	business_name	business_address	business_city	business_state	business_postal_code	business_latitude	business_longitude	business_location	business_phone_number	inspection_id	inspection_date	inspection_score	inspection_type	violation_id	violation_description	risk_category
+5800	John Chin Elementary School	350 Broadway St	San Francisco	CA	94133	37.8	-122.4	{'longitude': '-122.403154', 'needs_recoding': False, 'latitude': '37.798358', 'human_address': '{"address":"","city":"","state":"","zip":""}'}		5800_20171017	2017-10-17 00:00:00	98	Routine - Unscheduled	5800_20171017_103149	Wiping cloths not clean or properly stored or inadequate sanitizer	Low Risk
+64236	Sutter Pub and Restaurant	700 Sutter St	San Francisco	CA	94102	37.79	-122.41	{'longitude': '-122.41188', 'needs_recoding': False, 'latitude': '37.78881', 'human_address': '{"address":"","city":"","state":"","zip":""}'}		64236_20170725	2017-07-25 00:00:00	88	Routine - Unscheduled	64236_20170725_103133	Foods not protected from contamination	Moderate Risk
+1991	SRI THAI CUISINE	4621 LINCOLN Way	San Francisco	CA	94122	37.76	-122.51	{'longitude': '-122.507779', 'needs_recoding': False, 'latitude': '37.764073', 'human_address': '{"address":"","city":"","state":"","zip":""}'}		1991_20171129	2017-11-29 00:00:00	86	Routine - Unscheduled	1991_20171129_103139	Improper food storage	Low Risk
+3816	Washington Bakery & Restaurant	733 Washington St	San Francisco	CA	94108	37.8	-122.41	{'longitude': '-122.405845', 'needs_recoding': False, 'latitude': '37.795174', 'human_address': '{"address":"","city":"","state":"","zip":""}'}		3816_20160728	2016-07-28 00:00:00	67	Routine - Unscheduled	3816_20160728_103108	Contaminated or adulterated food	High Risk
+
+# Import your libraries
+library(dplyr)
+library(lubridate)
+
+# Start writing code
+head(sf_restaurant_health_violations)
+result <- sf_restaurant_health_violations %>%
+            filter(business_name == 'Roxanne Cafe' & !is.na(violation_id)) %>%
+            group_by(year=year(ymd(inspection_date))) %>%
+            summarize(n_violations=n()) 
