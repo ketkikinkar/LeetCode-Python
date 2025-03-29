@@ -1,0 +1,36 @@
+April Admin Employees
+Microsoft
+Amazon
+Easy
+ID 9845
+
+87
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Software Engineer
+Find the number of employees working in the Admin department that joined in April or later.
+
+Table: worker
+Hints
+Expected Output
+worker
+Preview
+worker_id	salary	first_name	last_name	joining_date	department
+1	100000	Monika	Arora	2014-02-20 00:00:00	HR
+2	80000	Niharika	Verma	2014-06-11 00:00:00	Admin
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(worker)
+# result <- worker %>%
+#             filter(department == 'Admin' & joining_date > '2014-04-01 00:00:00') %>%
+#             summarize(n_admin = n())
+result <- worker %>% 
+            filter(month(joining_date)>=4, department == 'Admin') %>%
+            summarise(n_admin = n())
