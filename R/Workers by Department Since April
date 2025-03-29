@@ -1,0 +1,40 @@
+Workers by Department Since April
+Amazon
+Easy
+ID 9847
+
+98
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Find the number of workers by department who joined on or after April 1, 2014.
+
+
+Output the department name along with the corresponding number of workers.
+
+
+Sort the results based on the number of workers in descending order.
+
+Table: worker
+Hints
+Expected Output
+worker
+Preview
+worker_id	salary	first_name	last_name	joining_date	department
+1	100000	Monika	Arora	2014-02-20 00:00:00	HR
+2	80000	Niharika	Verma	2014-06-11 00:00:00	Admin
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(worker)
+result <- worker %>%
+            filter(month(joining_date)>=4) %>%
+            group_by(department) %>%
+            summarise(n_worker = n()) %>%
+            arrange(desc(n_worker)) %>%
+            ungroup()
