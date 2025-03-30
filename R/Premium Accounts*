@@ -1,0 +1,60 @@
+Premium Accounts
+
+Meta
+Asana
+Medium
+ID 2097
+
+136
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+You have a dataset that records daily active users for each premium account. A premium account appears in the data every day as long as it remains premium. However, some premium accounts may be temporarily discounted, meaning they are not actively paying—this is indicated by a final_price of 0.
+
+
+For each of the first 7 available dates, count the number of premium accounts that were actively paying on that day. Then, track how many of those same accounts remain premium and are still paying exactly 7 days later.
+
+
+Output three columns:
+•   The date of initial calculation
+
+
+•   The number of premium accounts that were actively paying on that day
+
+
+•   The number of those accounts that remain premium and are still paying after 7 days
+
+Table: premium_accounts_by_day
+Hints
+Expected Output
+premium_accounts_by_day
+Preview
+users_visited_7d:
+numeric
+final_price:
+numeric
+plan_size:
+numeric
+account_id:
+character
+entry_date:
+POSIXct, POSIXt
+
+# Import your libraries
+library(dplyr)
+library(lubridate)
+
+# Start writing code
+head(premium_accounts_by_day)
+result<- premium_accounts_by_day %>%
+        filter(final_price != 0) %>%
+        mutate(seven_days_later = entry_date +days(7)) %>%
+        left_join(premium_accounts_by_day, by= c("account_id",seven_days_later ='entry_date')) %>%
+        mutate(is_still_premium = final_price.y !=0) %>%
+        group_by(entry_date) %>%
+        summarise(premium_paid_accounts = n(), premium_paid_Accounts_after_7d = sum(is_still_premium, na.rm = TRUE)) %>%
+        mutate(entry_date = format(entry_date,"%Y-%m-%d")) %>%
+        slice(1:7)
