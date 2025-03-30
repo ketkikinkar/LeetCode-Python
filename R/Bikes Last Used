@@ -1,0 +1,55 @@
+Bikes Last Used
+
+DoorDash
+Lyft
+Easy
+ID 10176
+
+331
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Find the last time each bike was in use. Output both the bike number and the date-timestamp of the bike's last use (i.e., the date-time the bike was returned). Order the results by bikes that were most recently used.
+
+Table: dc_bikeshare_q1_2012
+Hints
+Expected Output
+dc_bikeshare_q1_2012
+Preview
+duration_seconds:
+numeric
+start_terminal:
+numeric
+end_terminal:
+numeric
+id:
+numeric
+duration:
+character
+start_time:
+POSIXct, POSIXt
+start_station:
+character
+end_time:
+POSIXct, POSIXt
+end_station:
+character
+bike_number:
+character
+rider_type:
+character
+
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(dc_bikeshare_q1_2012)
+result<- dc_bikeshare_q1_2012 %>%
+            group_by(bike_number) %>%
+            summarize(last_used = max(end_time)) %>% 
+            arrange(desc(last_used)) 
+            
