@@ -1,0 +1,65 @@
+Reviews of Hotel Arena
+
+Expedia
+Airbnb
+Easy
+ID 10166
+
+148
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Find how many reviews exist for each review score given to 'Hotel Arena'. Output the hotel name ('Hotel Arena'), each review score, and the number of reviews for that score. Ensure the results only include 'Hotel Arena.'
+
+Table: hotel_reviews
+Hints
+Expected Output
+hotel_reviews
+Preview
+additional_number_of_scoring:
+numeric
+review_total_negative_word_counts:
+numeric
+total_number_of_reviews:
+numeric
+review_total_positive_word_counts:
+numeric
+total_number_of_reviews_reviewer_has_given:
+numeric
+hotel_address:
+character
+review_date:
+POSIXct, POSIXt
+average_score:
+numeric
+hotel_name:
+character
+reviewer_nationality:
+character
+negative_review:
+character
+positive_review:
+character
+reviewer_score:
+numeric
+tags:
+character
+days_since_review:
+character
+lat:
+numeric
+lng:
+numeric
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(hotel_reviews)
+result<- hotel_reviews %>%
+            filter(hotel_name=='Hotel Arena') %>%
+            group_by(hotel_name,reviewer_score) %>%
+            summarise(count=n())
