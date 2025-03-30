@@ -1,0 +1,62 @@
+Order Details
+
+Shopify
+Amazon
+Easy
+ID 9913
+
+223
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Find order details made by Jill and Eva.
+Consider the Jill and Eva as first names of customers.
+Output the order date, details and cost along with the first name.
+Order records based on the customer id in ascending order.
+
+Tables: customers, orders
+Hints
+Expected Output
+customers
+Preview
+id:
+numeric
+first_name:
+character
+last_name:
+character
+city:
+character
+address:
+character
+phone_number:
+character
+orders
+Preview
+id:
+numeric
+cust_id:
+numeric
+total_order_cost:
+numeric
+order_date:
+POSIXct, POSIXt
+order_details:
+character
+
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(customers)
+
+merged <- inner_join(customers,orders,by = c("id"="cust_id"))
+cust <- c("Jill","Eva")
+result <- merged %>%
+            filter(first_name %in% cust) %>%
+            select(first_name,order_date,order_details,total_order_cost)
+            
