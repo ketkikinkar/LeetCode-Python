@@ -1,0 +1,65 @@
+Highly Reviewed Hotels
+
+
+Expedia
+Airbnb
+Easy
+ID 9871
+
+5
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+List all hotels with their total number of reviews. Show the results sorted by the number of reviews from highest to lowest and output the hotel name along with the reviews.
+
+Table: hotel_reviews
+Hints
+Expected Output
+hotel_reviews
+Preview
+additional_number_of_scoring:
+numeric
+review_total_negative_word_counts:
+numeric
+total_number_of_reviews:
+numeric
+review_total_positive_word_counts:
+numeric
+total_number_of_reviews_reviewer_has_given:
+numeric
+hotel_address:
+character
+review_date:
+POSIXct, POSIXt
+average_score:
+numeric
+hotel_name:
+character
+reviewer_nationality:
+character
+negative_review:
+character
+positive_review:
+character
+reviewer_score:
+numeric
+tags:
+character
+days_since_review:
+character
+lat:
+numeric
+lng:
+numeric
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(hotel_reviews)
+result <-  hotel_reviews %>%
+            group_by(hotel_name,total_number_of_reviews) %>%
+            summarise(.groups='drop') %>%
+            arrange(desc(total_number_of_reviews))
