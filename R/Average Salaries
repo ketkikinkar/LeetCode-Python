@@ -1,0 +1,60 @@
+Average Salaries
+
+Glassdoor
+Salesforce
+Easy
+ID 9917
+
+293
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Compare each employee's salary with the average salary of the corresponding department.
+Output the department, first name, and salary of employees along with the average salary of that department.
+
+Table: employee
+Hints
+Expected Output
+employee
+Preview
+id:
+numeric
+age:
+numeric
+salary:
+numeric
+target:
+numeric
+bonus:
+numeric
+manager_id:
+numeric
+first_name:
+character
+last_name:
+character
+sex:
+character
+employee_title:
+character
+department:
+character
+email:
+character
+city:
+character
+address:
+character
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(employee)
+result <- employee %>%
+            group_by(department) %>%
+            summarise(department,first_name,salary,avg_sal= mean(salary)) %>%
+            ungroup()
