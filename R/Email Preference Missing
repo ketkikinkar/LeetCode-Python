@@ -1,0 +1,61 @@
+Email Preference Missing
+
+ty of San Francisco
+Easy
+ID 9924
+
+106
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Find libraries from the 2016 circulation year that have no email address provided but have their notice preference set to email. In your solution, output their home library code.
+
+Table: library_usage
+Hints
+Expected Output
+library_usage
+Preview
+patron_type_code:
+numeric
+total_checkouts:
+numeric
+total_renewals:
+numeric
+year_patron_registered:
+numeric
+patron_type_definition:
+character
+age_range:
+character
+home_library_code:
+character
+home_library_definition:
+character
+circulation_active_month:
+character
+circulation_active_year:
+numeric
+notice_preference_code:
+character
+notice_preference_definition:
+character
+provided_email_address:
+logical
+outside_of_county:
+logical
+supervisor_district:
+numeric
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(library_usage)
+
+result <- library_usage %>%
+            filter(notice_preference_definition=='email' & !provided_email_address & circulation_active_year==2016) %>%
+            distinct(home_library_code) %>%
+            select(home_library_code)
