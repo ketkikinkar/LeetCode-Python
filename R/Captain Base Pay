@@ -1,0 +1,56 @@
+Captain Base Pay
+City of San Francisco
+Easy
+ID 9972
+
+130
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Software Engineer
+Find the base pay for Police Captains.
+Output the employee name along with the corresponding base pay.
+
+Table: sf_public_salaries
+Hints
+Expected Output
+sf_public_salaries
+Preview
+id:
+numeric
+year:
+numeric
+employeename:
+character
+jobtitle:
+character
+basepay:
+numeric
+overtimepay:
+numeric
+otherpay:
+numeric
+benefits:
+numeric
+totalpay:
+numeric
+totalpaybenefits:
+numeric
+notes:
+POSIXct, POSIXt
+agency:
+character
+status:
+character
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(sf_public_salaries)
+result <- sf_public_salaries %>%
+            filter(grepl("CAPTAIN",jobtitle)) %>%
+            select(employeename,basepay)
