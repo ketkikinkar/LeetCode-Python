@@ -1,0 +1,48 @@
+Artist Appearance Count
+Spotify
+Easy
+ID 9992
+
+173
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Find how many times each artist appeared on the Spotify ranking list.
+Output the artist name along with the corresponding number of occurrences.
+Order records by the number of occurrences in descending order.
+
+Table: spotify_worldwide_daily_song_ranking
+Hints
+Expected Output
+spotify_worldwide_daily_song_ranking
+Preview
+id:
+numeric
+position:
+numeric
+streams:
+numeric
+trackname:
+character
+artist:
+character
+url:
+character
+stream_date:
+POSIXct, POSIXt
+region:
+character
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(spotify_worldwide_daily_song_ranking)
+
+result<-  spotify_worldwide_daily_song_ranking %>%
+            group_by(artist) %>%
+            summarise(n_occurences=n()) %>%
+            arrange(desc(n_occurences))
