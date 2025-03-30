@@ -1,0 +1,53 @@
+Find all posts which were reacted to with a heart
+Meta
+Easy
+ID 10087
+
+204
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Find all posts which were reacted to with a heart. For such posts output all columns from facebook_posts table.
+
+Tables: facebook_reactions, facebook_posts
+Hints
+Expected Output
+facebook_reactions
+Preview
+poster:
+numeric
+friend:
+numeric
+date_day:
+numeric
+post_id:
+numeric
+reaction:
+character
+facebook_posts
+Preview
+post_id:
+numeric
+poster:
+numeric
+post_text:
+character
+post_keywords:
+character
+post_date:
+POSIXct, POSIXt
+
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(facebook_reactions)
+merged <-  inner_join(facebook_posts,facebook_reactions, by = 'post_id')
+result <- merged %>%
+            filter(reaction == 'heart') %>%
+            select(post_id:post_date) %>%
+            distinct()
