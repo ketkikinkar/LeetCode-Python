@@ -1,0 +1,38 @@
+Lyft Driver Wages
+
+Lyft
+Easy
+ID 10003
+
+103
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Find all Lyft drivers who earn either equal to or less than 30k USD or equal to or more than 70k USD.
+Output all details related to retrieved records.
+
+Table: lyft_drivers
+Hints
+Expected Output
+lyft_drivers
+Preview
+index:
+numeric
+yearly_salary:
+numeric
+start_date:
+POSIXct, POSIXt
+end_date:
+POSIXct, POSIXt
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(lyft_drivers)
+# result <- lyft_drivers %>%
+#             filter(yearly_salary<=30000 | yearly_salary >= 70000) 
+result <- lyft_drivers[(lyft_drivers$yearly_salary<=30000) | (lyft_drivers$yearly_salary>=70000),]
