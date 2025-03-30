@@ -1,0 +1,37 @@
+Finding Updated Records
+
+Microsoft
+Easy
+ID 10299
+
+469
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+We have a table with employees and their salaries, however, some of the records are old and contain outdated salary information. Find the current salary of each employee assuming that salaries increase each year. Output their id, first name, last name, department ID, and current salary. Order your list by employee ID in ascending order.
+
+Table: ms_employee_salary
+Hints
+Expected Output
+ms_employee_salary
+Preview
+id:
+numeric
+salary:
+numeric
+department_id:
+numeric
+first_name:
+character
+last_name:
+character
+
+# Ketki
+library(dplyr)
+res <- ms_employee_salary %>%
+        group_by(id, first_name, last_name, department_id) %>%
+        summarise(salary=max(salary)) %>%
+        arrange(id)
