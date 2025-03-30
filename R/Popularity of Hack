@@ -1,0 +1,60 @@
+Popularity of Hack
+
+Meta
+Easy
+ID 10061
+
+228
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Meta/Facebook has developed a new programing language called Hack.To measure the popularity of Hack they ran a survey with their employees. The survey included data on previous programing familiarity as well as the number of years of experience, age, gender and most importantly satisfaction with Hack. Due to an error location data was not collected, but your supervisor demands a report showing average popularity of Hack by office location. Luckily the user IDs of employees completing the surveys were stored.
+Based on the above, find the average popularity of the Hack per office location.
+Output the location along with the average popularity.
+
+Tables: facebook_employees, facebook_hack_survey
+Hints
+Expected Output
+All required columns and the first 5 rows of the solution are shown
+
+location	mean_popularity
+India	7.5
+Switzerland	1
+UK	4.33
+USA	4.6
+facebook_employees
+Preview
+id:
+numeric
+age:
+numeric
+location:
+character
+gender:
+character
+is_senior:
+logical
+facebook_hack_survey
+Preview
+employee_id:
+numeric
+age:
+numeric
+popularity:
+numeric
+gender:
+character
+
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(facebook_employees)
+merged <- inner_join(facebook_employees,facebook_hack_survey, by = c("id"="employee_id"))
+result<-merged %>%
+        group_by(location) %>%
+        summarise(mean_popularity = mean(popularity))
