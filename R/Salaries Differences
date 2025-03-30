@@ -1,0 +1,47 @@
+Salaries Differences
+
+LinkedIn
+Dropbox
+Easy
+ID 10308
+
+857
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Calculates the difference between the highest salaries in the marketing and engineering departments. Output just the absolute difference in salaries.
+
+Tables: db_employee, db_dept
+Hints
+Expected Output
+db_employee
+Preview
+id:
+numeric
+salary:
+numeric
+department_id:
+numeric
+first_name:
+character
+last_name:
+character
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+merged <- left_join(db_employee,db_dept, by=c('department_id'='id'))
+head(db_employee)
+df_marketing <- merged %>%
+            filter(department=='marketing') %>%
+            group_by(department) %>%
+            summarise(max_dept_salary= max(salary))
+df_engg <- merged %>%
+            filter(department=='engineering') %>%
+            group_by(department) %>%
+            summarise(max_dept_salary= max(salary))
+result<- abs(data.frame(salary_diff = df_marketing$max_dept_salary - df_engg$max_dept_salary))
