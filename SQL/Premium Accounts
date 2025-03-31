@@ -1,0 +1,56 @@
+Premium Accounts
+Meta
+Asana
+Medium
+ID 2097
+
+136
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+You have a dataset that records daily active users for each premium account. A premium account appears in the data every day as long as it remains premium. However, some premium accounts may be temporarily discounted, meaning they are not actively paying—this is indicated by a final_price of 0.
+
+
+For each of the first 7 available dates, count the number of premium accounts that were actively paying on that day. Then, track how many of those same accounts remain premium and are still paying exactly 7 days later.
+
+
+Output three columns:
+•   The date of initial calculation
+
+
+•   The number of premium accounts that were actively paying on that day
+
+
+•   The number of those accounts that remain premium and are still paying after 7 days
+
+Table: premium_accounts_by_day
+Hints
+Expected Output
+premium_accounts_by_day
+Preview
+account_id:
+text
+entry_date:
+datetime
+final_price:
+bigint
+plan_size:
+bigint
+users_visited_7d:
+bigint
+
+-- select * from premium_accounts_by_day;
+with premium_accounts as 
+    (select entry_date,account_id,final_price
+    from premium_accounts_by_day
+    where final_price > 0)
+select a.entry_date, count(distinct a.account_id) as permium_paid_accounts,
+    count(distinct b.account_id) as premium_paid_accounts_after_7d
+    from premium_accounts a
+    left join premium_accounts b on a.account_id = b.account_id and (b.entry_date - a.entry_date) = 7
+    group by a.entry_date
+    order by a.entry_date
+    limit 7;
