@@ -1,0 +1,61 @@
+Number of violations
+City of San Francisco
+Easy
+ID 9728
+
+84
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+You are given a dataset of health inspections that includes details about violations. Each row represents an inspection, and if an inspection resulted in a violation, the violation_id column will contain a value.
+
+
+Count the total number of violations that occurred at 'Roxanne Cafe' for each year, based on the inspection date. Output the year and the corresponding number of violations in ascending order of the year.
+
+Table: sf_restaurant_health_violations
+Hints
+Expected Output
+sf_restaurant_health_violations
+Preview
+business_address:
+text
+business_city:
+text
+business_id:
+bigint
+business_latitude:
+double
+business_location:
+text
+business_longitude:
+double
+business_name:
+text
+business_phone_number:
+double
+business_postal_code:
+double
+business_state:
+text
+inspection_date:
+datetime
+inspection_id:
+text
+inspection_score:
+double
+inspection_type:
+text
+risk_category:
+text
+violation_description:
+text
+violation_id:
+text
+
+select year(inspection_date), count(violation_id) as n_violation from sf_restaurant_health_violations
+where business_name ='Roxanne Cafe' 
+group by year(inspection_date)
+order by n_violation;
