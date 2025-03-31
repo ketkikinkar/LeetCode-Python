@@ -1,0 +1,42 @@
+Top 10 Songs 2010
+
+Last Updated: March 2025
+
+Spotify
+Medium
+ID 9650
+
+109
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Find the top 10 ranked songs in 2010. Output the rank, group name, and song name, but do not show the same song twice. Sort the result based on the rank in ascending order.
+
+Table: billboard_top_100_year_end
+Hints
+Expected Output
+billboard_top_100_year_end
+Preview
+year:
+numeric
+year_rank:
+numeric
+id:
+numeric
+group_name:
+character
+artist:
+character
+song_name:
+character
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(billboard_top_100_year_end)
+conditions <- subset(billboard_top_100_year_end, year==2010 & year_rank %in% 1:10)
+result<- unique(subset(conditions,select = c(year_rank,group_name,song_name)))
