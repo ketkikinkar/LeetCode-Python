@@ -1,0 +1,33 @@
+Share of Active Users
+
+Meta
+Medium
+ID 2005
+
+98
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+Output the percentage of all users who are both from the US and have an "open" status (i.e., are active). Active users are the ones with an "open" status in the table fb_active_users.
+
+Table: fb_active_users
+Hints
+Expected Output
+fb_active_users
+Preview
+country:
+text
+name:
+text
+status:
+text
+user_id:
+bigint
+
+SELECT SUM(CASE
+            WHEN country='USA' AND status='open' THEN 1
+            ELSE 0
+            END ) *100 / count(*) as us_active_share
+FROM fb_active_users;
