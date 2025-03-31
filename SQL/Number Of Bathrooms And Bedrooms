@@ -1,0 +1,84 @@
+Number Of Bathrooms And Bedrooms
+
+Airbnb
+Easy
+ID 9622
+
+227
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Find the average number of bathrooms and bedrooms for each city’s property types. Output the result along with the city name and the property type.
+
+Table: airbnb_search_details
+Hints
+Expected Output
+airbnb_search_details
+Preview
+accommodates:
+bigint
+amenities:
+varchar
+bathrooms:
+bigint
+bed_type:
+varchar
+bedrooms:
+bigint
+beds:
+bigint
+cancellation_policy:
+varchar
+city:
+varchar
+cleaning_fee:
+tinyint
+host_identity_verified:
+varchar
+host_response_rate:
+varchar
+host_since:
+datetime
+id:
+bigint
+neighbourhood:
+varchar
+number_of_reviews:
+bigint
+price:
+double
+property_type:
+varchar
+review_scores_rating:
+bigint
+room_type:
+varchar
+zipcode:
+bigint
+amenities:
+text
+bed_type:
+text
+cancellation_policy:
+text
+city:
+text
+host_identity_verified:
+text
+host_response_rate:
+text
+neighbourhood:
+text
+property_type:
+text
+review_scores_rating:
+double
+room_type:
+text
+
+select city, property_type, avg(bathrooms),avg(bedrooms)
+from airbnb_search_details
+group by city, property_type;
