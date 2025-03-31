@@ -1,0 +1,59 @@
+Highly Reviewed Hotels
+
+Amadeus
+Expedia
+Airbnb
+Easy
+ID 9871
+
+5
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+List all hotels with their total number of reviews. Show the results sorted by the number of reviews from highest to lowest and output the hotel name along with the reviews.
+
+Table: hotel_reviews
+Hints
+Expected Output
+hotel_reviews
+Preview
+additional_number_of_scoring:
+bigint
+average_score:
+double
+days_since_review:
+text
+hotel_address:
+text
+hotel_name:
+text
+lat:
+double
+lng:
+double
+negative_review:
+text
+positive_review:
+text
+review_date:
+datetime
+review_total_negative_word_counts:
+bigint
+review_total_positive_word_counts:
+bigint
+reviewer_nationality:
+text
+reviewer_score:
+double
+tags:
+text
+total_number_of_reviews:
+bigint
+total_number_of_reviews_reviewer_has_given:
+bigint
+
+select hotel_name, total_number_of_reviews from hotel_reviews
+group by hotel_name, total_number_of_reviews
+order by total_number_of_reviews desc;
