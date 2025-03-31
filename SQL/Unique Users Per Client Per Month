@@ -1,0 +1,38 @@
+Unique Users Per Client Per Month
+Apple
+Dell
+Microsoft
+Easy
+ID 2024
+
+190
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Write a query that returns the number of unique users per client per month.
+
+Table: fact_events
+Hints
+Expected Output
+fact_events
+Preview
+client_id:
+text
+customer_id:
+text
+event_id:
+bigint
+event_type:
+text
+id:
+bigint
+time_id:
+datetime
+user_id:
+text
+
+select client_id, month(time_id) as month, count(distinct user_id) from fact_events
+group by client_id, month(time_id);
