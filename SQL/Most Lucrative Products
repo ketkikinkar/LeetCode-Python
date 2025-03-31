@@ -1,0 +1,53 @@
+Most Lucrative Products
+
+Meta
+Easy
+ID 2119
+
+150
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+You have been asked to find the 5 most lucrative products in terms of total revenue for the first half of 2022 (from January to June inclusive).
+
+
+Output their IDs and the total revenue.
+
+Table: online_orders
+Hints
+Expected Output
+online_orders
+Preview
+cost_in_dollars:
+bigint
+customer_id:
+bigint
+date_sold:
+datetime
+product_id:
+bigint
+promotion_id:
+bigint
+units_sold:
+bigint
+date:
+datetime
+
+-- select product_id, sum(cost_in_dollars*units_sold) as revenue from online_orders
+-- WHERE month(date_sold)>=1 and month(date_sold)<=6 
+-- group by product_id
+-- order by revenue desc
+-- limit 5;
+
+with cte as
+(select product_id, sum(cost_in_dollars*units_sold) as revenue,
+rank() over (order by sum(cost_in_dollars*units_sold) desc) as rnk
+from online_orders
+where month(date_sold) between 1 and 6
+group by product_id)
+
+select product_id, revenue
+from cte where rnk<= 5;
