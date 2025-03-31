@@ -1,0 +1,51 @@
+User with Most Approved Flags
+
+Google
+Medium
+ID 2104
+
+110
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Software Engineer
+Which user flagged the most distinct videos that ended up approved by YouTube? Output, in one column, their full name or names in case of a tie. In the user's full name, include a space between the first and the last name.
+
+Tables: user_flags, flag_review
+Hints
+Expected Output
+user_flags
+Preview
+user_firstname:
+character
+user_lastname:
+character
+video_id:
+character
+flag_id:
+character
+flag_review
+Preview
+flag_id:
+character
+reviewed_by_yt:
+logical
+reviewed_date:
+POSIXct, POSIXt
+reviewed_outcome:
+character
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(user_flags)
+result<- merge(user_flags, flag_review, by = 'flag_id')
+# result<- result[grep("approved", tolower(result$reviewed_outcome)),]
+result$username <- paste(result$user_firstname, result$user_lastname, sep = " ")
+result<-aggregate(video_id ~ username, data = result, FUN= function(x) length(unique(x)))
+result$rank <- dense_rank(-result$video_id)
+result <- result[result$rank==1, c('username'), drop = FALSE]
