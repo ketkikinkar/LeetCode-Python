@@ -1,0 +1,50 @@
+Find Students At Median Writing
+General Assembly
+Kaplan
+Google
+Medium
+ID 9610
+
+81
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Identify the IDs of students who scored exactly at the median for the SAT writing section.
+
+Table: sat_scores
+Hints
+Expected Output
+sat_scores
+Preview
+id:
+numeric
+school:
+character
+teacher:
+character
+student_id:
+numeric
+sat_writing:
+numeric
+sat_verbal:
+numeric
+sat_math:
+numeric
+hrs_studied:
+numeric
+average_sat:
+numeric
+love:
+POSIXct, POSIXt
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(sat_scores)
+result<- sat_scores %>%
+        filter(sat_writing == median(sat_writing)) %>%
+        select(student_id)
