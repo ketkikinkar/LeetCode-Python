@@ -1,0 +1,39 @@
+MacBookPro User Event Count
+
+Apple
+Easy
+ID 9653
+
+147
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Count the number of user events performed by MacBookPro users.
+Output the result along with the event name.
+Sort the result based on the event count in the descending order.
+
+Table: playbook_events
+Hints
+Expected Output
+playbook_events
+Preview
+device:
+text
+event_name:
+text
+event_type:
+text
+location:
+text
+occurred_at:
+timestamp
+user_id:
+bigint
+
+select event_name, count(user_id) as event_count from playbook_events
+where device ='macbook pro'
+group by event_name
+order by event_count desc;
