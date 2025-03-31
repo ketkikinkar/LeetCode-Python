@@ -1,0 +1,64 @@
+Flags per Video
+Netflix
+Google
+Medium
+ID 2102
+
+93
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Software Engineer
+For each video, find how many unique users flagged it. A unique user can be identified using the combination of their first name and last name. Do not consider rows in which there is no flag ID.
+
+Table: user_flags
+Hints
+Expected Output
+Hint #1
+To find the number of unique users who flagged each video, we need to filter out rows where the flag ID is missing. Then, we can create a new column that combines the first name and last name of each user. Finally, we group the data by video ID and count the number of distinct usernames.
+
+Hint #2
+Keep going! Now let's start with the first part of the solution. We can use the filter() function from the dplyr package to remove rows where the flag ID is missing. This can be done by using the !is.na(flag_id) condition inside the filter() function.
+
+Here's the code snippet for the first part:
+
+
+result <- user_flags %>%
+    filter(!is.na(flag_id))
+Hint #3
+Well done! Now let's move on to the remaining part of the solution. We need to create a new column that combines the first name and last name of each user. We can use the mutate() function from dplyr to achieve this. Inside the mutate() function, we can use the paste() function to concatenate the first name and last name with a space separator.
+
+Finally, we group the data by video ID using the group_by() function and calculate the number of distinct usernames using the n_distinct() function.
+
+Here's the complete code snippet:
+
+
+result <- result %>%
+    mutate(username = paste(user_firstname, user_lastname, sep = " "))
+result <- result %>%
+    group_by(video_id) %>%
+    summarise(num_unique_users = n_distinct(username))
+user_flags
+Preview
+user_firstname:
+character
+user_lastname:
+character
+video_id:
+character
+flag_id:
+character
+
+# Import your libraries
+library(dplyr)
+
+# Start writing code
+head(user_flags)
+user_flags <- user_flags[!is.na(user_flags$flag_id),]
+result <- user_flags %>%
+            mutate(username=paste(user_firstname,user_lastname,sep=" ")) %>%
+            group_by(video_id) %>%
+            summarise(count=n_distinct(username)) 
