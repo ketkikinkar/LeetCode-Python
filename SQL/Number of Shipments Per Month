@@ -1,0 +1,57 @@
+Number of Shipments Per Month
+Amazon
+Easy
+ID 2056
+
+156
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Software Engineer
+Write a query that will calculate the number of shipments per month. The unique key for one shipment is a combination of shipment_id and sub_id. Output the year_month in format YYYY-MM and the number of shipments in that month.
+
+Table: amazon_shipment
+Hints
+Expected Output
+Hint #1
+The problem is asking to calculate the number of shipments per month. The unique key for one shipment is a combination of shipment_id and sub_id. We need to output the year_month in format YYYY-MM and the number of shipments in that month.
+
+Hint #2
+Keep going!
+
+We need to use the COUNT function to calculate the number of shipments. We also need to use the DATE_FORMAT function to format the shipment_date to 'YYYY-MM'. The GROUP BY clause is used to group the result-set by one or more columns, in this case, by the formatted date.
+
+Corresponding code block:
+
+select count(shipment_id), DATE_FORMAT(shipment_date, '%Y-%m')  date_ym
+from amazon_shipment
+group by date_ym;
+Hint #3
+Great job!
+
+However, the unique key for one shipment is a combination of shipment_id and sub_id. So, we need to count the combination of shipment_id and sub_id instead of just shipment_id. We can achieve this by concatenating shipment_id and sub_id and then count the result.
+
+Entire code:
+
+select count(concat(shipment_id, sub_id)), DATE_FORMAT(shipment_date, '%Y-%m')  date_ym
+from amazon_shipment
+group by date_ym;
+"
+
+amazon_shipment
+Preview
+shipment_date:
+datetime
+shipment_id:
+bigint
+sub_id:
+bigint
+weight:
+bigint
+
+
+select count(shipment_id), DATE_FORMAT(shipment_date,'%Y-%m') as date_ym from amazon_shipment
+group by date_ym;
