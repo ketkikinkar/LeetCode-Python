@@ -1,0 +1,48 @@
+Unique Users Per Client Per Month
+
+
+Last Updated: April 2025
+
+Apple
+Dell
+Microsoft
+Easy
+ID 2024
+
+192
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Write a query that returns the number of unique users per client per month.
+
+DataFrame: fact_eventsExpected Output Type: pandas.DataFrame
+Hints
+Expected Output
+fact_events
+Preview
+id:
+int64
+time_id:
+datetime64[ns]
+user_id:
+object
+customer_id:
+object
+client_id:
+object
+event_type:
+object
+event_id:
+int64
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+fact_events.head()
+result = (
+    fact_events.groupby([fact_events['client_id'],fact_events['time_id'].dt.month])['user_id']).nunique().reset_index()
+result = result.rename(columns={"time_id":"month","user_id":"users_num"})
