@@ -1,0 +1,42 @@
+MacBookPro User Event Count
+
+Apple
+Easy
+ID 9653
+
+149
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Count the number of user events performed by MacBookPro users.
+Output the result along with the event name.
+Sort the result based on the event count in the descending order.
+
+DataFrame: playbook_eventsExpected Output Type: pandas.DataFrame
+Hints
+Expected Output
+playbook_events
+Preview
+user_id:
+int64
+occurred_at:
+datetime64[ns]
+event_type:
+object
+event_name:
+object
+location:
+object
+device:
+object
+
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+playbook_events.head()
+result = playbook_events[playbook_events['device']=='macbook pro'].groupby('event_name').size().to_frame('size').reset_index().sort_values('size',ascending=False).rename(columns={'size':'event_count'}) 
