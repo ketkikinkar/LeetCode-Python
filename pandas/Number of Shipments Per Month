@@ -1,0 +1,41 @@
+Number of Shipments Per Month
+
+
+Last Updated: April 2025
+
+Amazon
+Easy
+ID 2056
+
+157
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Software Engineer
+Write a query that will calculate the number of shipments per month. The unique key for one shipment is a combination of shipment_id and sub_id. Output the year_month in format YYYY-MM and the number of shipments in that month.
+
+DataFrame: amazon_shipmentExpected Output Type: pandas.DataFrame
+Hints
+Expected Output
+amazon_shipment
+Preview
+shipment_id:
+int64
+sub_id:
+int64
+weight:
+int64
+shipment_date:
+datetime64[ns]
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+amazon_shipment.head()
+amazon_shipment['year_month'] = pd.to_datetime(amazon_shipment.shipment_date).dt.to_period('M')
+amazon_shipment['unique_key'] = amazon_shipment['shipment_id'].astype(str)+' '+amazon_shipment['sub_id'].astype(str)
+result = amazon_shipment.groupby('year_month')['unique_key'].nunique().to_frame('count').reset_index()
