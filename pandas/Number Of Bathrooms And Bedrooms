@@ -1,0 +1,67 @@
+Number Of Bathrooms And Bedrooms
+Airbnb
+Easy
+ID 9622
+
+227
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Find the average number of bathrooms and bedrooms for each city’s property types. Output the result along with the city name and the property type.
+
+DataFrame: airbnb_search_detailsExpected Output Type: pandas.DataFrame
+Hints
+Expected Output
+airbnb_search_details
+Preview
+id:
+int64
+price:
+float64
+property_type:
+object
+room_type:
+object
+amenities:
+object
+accommodates:
+int64
+bathrooms:
+int64
+bed_type:
+object
+cancellation_policy:
+object
+cleaning_fee:
+bool
+city:
+object
+host_identity_verified:
+object
+host_response_rate:
+object
+host_since:
+datetime64[ns]
+neighbourhood:
+object
+number_of_reviews:
+int64
+review_scores_rating:
+float64
+zipcode:
+int64
+bedrooms:
+int64
+beds:
+int64
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+airbnb_search_details.head()
+result =(airbnb_search_details.groupby(['city','property_type'])['bathrooms','bedrooms'].mean().reset_index().rename
+(columns= {'bathrooms':'n_bathrooms','bedrooms':'n_bedrooms'}))
