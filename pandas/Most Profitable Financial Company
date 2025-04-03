@@ -1,0 +1,51 @@
+Most Profitable Financial Company
+
+Last Updated: March 2025
+
+Forbes
+Easy
+ID 9663
+
+136
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Find the most profitable company from the financial sector. Output the result along with the continent.
+
+DataFrame: forbes_global_2010_2014Expected Output Type: pandas.DataFrame
+Hints
+Expected Output
+forbes_global_2010_2014
+Preview
+company:
+object
+sector:
+object
+industry:
+object
+continent:
+object
+country:
+object
+marketvalue:
+float64
+sales:
+float64
+profits:
+float64
+assets:
+float64
+rank:
+int64
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+forbes_global_2010_2014.head()
+result = forbes_global_2010_2014[forbes_global_2010_2014['sector']=='Financials'].groupby(['company','continent'])['profits'].sum().reset_index()
+result['rank'] = result['profits'].rank(method='min',ascending=False)
+result = result[result['rank']==1][['company','continent']]
