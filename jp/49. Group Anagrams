@@ -1,0 +1,105 @@
+49. Group Anagrams
+Medium
+Topics
+Companies
+Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+
+ 
+
+Example 1:
+
+Input: strs = ["eat","tea","tan","ate","nat","bat"]
+
+Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+
+Explanation:
+
+There is no string in strs that can be rearranged to form "bat".
+The strings "nat" and "tan" are anagrams as they can be rearranged to form each other.
+The strings "ate", "eat", and "tea" are anagrams as they can be rearranged to form each other.
+Example 2:
+
+Input: strs = [""]
+
+Output: [[""]]
+
+Example 3:
+
+Input: strs = ["a"]
+
+Output: [["a"]]
+
+ 
+
+Constraints:
+
+1 <= strs.length <= 104
+0 <= strs[i].length <= 100
+strs[i] consists of lowercase English letters.
+Seen this question in a real interview before?
+1/5
+Yes
+No
+Accepted
+3.6M
+Submissions
+5.2M
+Acceptance Rate
+70.5%
+Topics
+Array
+Hash Table
+String
+Sorting
+
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        res = defaultdict(list)
+        for s in strs:
+            count = [0]*26 # a b c .. z
+            for c in s:
+                count[ord(c)-ord("a")] += 1 # unicode a = 97
+            res[tuple(count)].append(s)
+        return list(res.values())
+        """
+        Time Complexity: O(n * k) where:
+n is the number of strings in the input array
+k is the maximum length of any string in the input array
+
+For each of the n strings, we:
+
+Create a character count array (O(1) as it's always size 26)
+Count each character in the string (O(k))
+Convert the count array to a tuple (O(1))
+Append the string to the corresponding list in the dictionary (O(1))
+Finally, we convert the dictionary values to a list (O(n))
+
+Space Complexity: O(n * k)
+
+We store all n input strings in our result structure
+In the worst case (when all strings are in different groups), we create n different keys in our dictionary
+Each key is a tuple of 26 integers (O(1) space per key)
+The total space taken by the values is proportional to the total length of all strings (O(n * k))"""
+        
+        
+"""
+Step 1: Introduction of the Problem
+"The task is to group strings such that each group contains strings that are anagrams of each other. Anagrams are strings that can be formed by rearranging the letters of another string. For example, 'eat', 'tea', and 'ate' are all anagrams."
+
+Step 2: Explanation of the Solution Approach
+"To solve this, I'll use a dictionary to categorize strings by their character counts. Each string will be transformed into a key based on its character count, and strings with identical keys are anagrams."
+
+Step 3: Discussing the Code
+"I've chosen a defaultdict from Python's collections module because it simplifies managing lists associated with each key. For counting characters, I use an array of size 26, representing each letter from 'a' to 'z'."
+Character Count Array:
+"For each string, I initialize a count array of 26 zeros. As I iterate through each character in the string, I increment the count at the position corresponding to the character. For instance, for 'a', I increment the first position."
+Creating and Using the Hashmap:
+"The count array is then converted into a tuple to use as a key in our defaultdict because tuples are hashable and can be used as dictionary keys. This tuple uniquely represents the string's character makeup. If another string has the exact same character count, it will produce the same tuple and thus be grouped with the original string under the same key in the dictionary."
+Appending Strings and Generating Output:
+"Each string is appended to the list of strings in the defaultdict that corresponds to its character count key. After processing all strings, I return the values of the defaultdict, which are the lists of grouped anagrams."
+Step 5: Handling Edge Cases
+"The solution effectively handles edge cases, such as:
+Empty String: If a string is empty, it still has a character count of all zeros, so it can be grouped correctly with other empty strings if present.
+Single Character Strings: These are also handled naturally by the count array and will be grouped with identical single characters."
+
+"""
