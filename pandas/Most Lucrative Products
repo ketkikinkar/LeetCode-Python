@@ -1,0 +1,67 @@
+Most Lucrative Products
+
+Meta
+Easy
+ID 2119
+
+152
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+You have been asked to find the 5 most lucrative products in terms of total revenue for the first half of 2022 (from January to June inclusive).
+
+
+Output their IDs and the total revenue.
+
+DataFrame: online_ordersExpected Output Type: pandas.DataFrame
+Hints
+Expected Output
+online_orders
+Preview
+product_id:
+int64
+promotion_id:
+int64
+cost_in_dollars:
+int64
+customer_id:
+int64
+date_sold:
+datetime64[ns]
+units_sold:
+int64
+
+
+# # Import your libraries
+# import pandas as pd
+# import datetime as dt
+# # Start writing code
+# online_orders.head()
+# online_orders['date_sold'] =  pd.to_datetime(online_orders['date_sold'])
+# online_orders['month'] = online_orders['date_sold'].dt.month
+# quarter_sales = online_orders[(online_orders['month']>=1) & (online_orders['month']<=6)]
+# quarter_sales['revenue'] = (quarter_sales['cost_in_dollars']*quarter_sales['units_sold'])
+# products = (quarter_sales.groupby(by='product_id')[['revenue']].agg(func='sum').reset_index() )
+# products['ranking'] = products['revenue'].rank(method='min',ascending=False)
+# result = products[products['ranking']<=5][['product_id','revenue']].sort_values('revenue',ascending=False)
+filtered_df = online_orders[
+    (online_orders['date_sold'] >= '2022-01-01') & 
+    (online_orders['date_sold'] <= '2022-06-30')
+]
+
+# Calculate revenue for each order
+filtered_df['revenue'] = filtered_df['cost_in_dollars'] * filtered_df['units_sold']
+
+# Group by product_id and sum the revenue
+result = filtered_df.groupby('product_id')['revenue'].sum().reset_index()
+
+# Sort by revenue in descending order and take the top 5
+result = result.sort_values('revenue', ascending=False).head(5)
+
+# Select only the required columns
+result = result[['product_id', 'revenue']]
+
+result
