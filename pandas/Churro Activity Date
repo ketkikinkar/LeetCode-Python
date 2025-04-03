@@ -1,0 +1,71 @@
+Churro Activity Date
+
+City of Los Angeles
+Easy
+ID 9688
+
+105
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Software Engineer
+Find the inspection date and risk category (pe_description) of facilities named 'STREET CHURROS' that received a score below 95.
+
+DataFrame: los_angeles_restaurant_health_inspectionsExpected Output Type: pandas.DataFrame
+Hints
+Expected Output
+los_angeles_restaurant_health_inspections
+Preview
+serial_number:
+object
+activity_date:
+datetime64[ns]
+facility_name:
+object
+score:
+int64
+grade:
+object
+service_code:
+int64
+service_description:
+object
+employee_id:
+object
+facility_address:
+object
+facility_city:
+object
+facility_id:
+object
+facility_state:
+object
+facility_zip:
+object
+owner_id:
+object
+owner_name:
+object
+pe_description:
+object
+program_element_pe:
+int64
+program_name:
+object
+program_status:
+object
+record_id:
+object
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+los_angeles_restaurant_health_inspections.head()
+result = los_angeles_restaurant_health_inspections[(los_angeles_restaurant_health_inspections['facility_name']=='STREET CHURROS') & 
+        (los_angeles_restaurant_health_inspections['score']<95)][['activity_date','pe_description']].rename(columns={'activity_date':'inspection_date','pe_description':'risk_category'})
+result['inspection_date'] = pd.to_datetime(result['inspection_date'],format="%Y-%m-%d").dt.strftime("%Y-%m-%d")
+result
