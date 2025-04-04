@@ -1,0 +1,42 @@
+April Admin Employees
+
+Microsoft
+Amazon
+Easy
+ID 9845
+
+87
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+Software Engineer
+Find the number of employees working in the Admin department that joined in April or later.
+
+DataFrame: worker
+Hints
+Expected Output
+worker
+Preview
+worker_id:
+int64
+first_name:
+object
+last_name:
+object
+salary:
+int64
+joining_date:
+datetime64[ns]
+department:
+object
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+worker.head()
+result = worker[(worker['joining_date']>='2014-04-01') & (worker['department']=='Admin')][['department']].count()
+result = pd.DataFrame({"n_admin":result})
