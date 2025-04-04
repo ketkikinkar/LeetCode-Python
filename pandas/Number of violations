@@ -1,0 +1,66 @@
+Number of violations
+
+City of San Francisco
+Easy
+ID 9728
+
+85
+
+Data Engineer
+Data Scientist
+BI Analyst
+Data Analyst
+ML Engineer
+You are given a dataset of health inspections that includes details about violations. Each row represents an inspection, and if an inspection resulted in a violation, the violation_id column will contain a value.
+
+
+Count the total number of violations that occurred at 'Roxanne Cafe' for each year, based on the inspection date. Output the year and the corresponding number of violations in ascending order of the year.
+
+DataFrame: sf_restaurant_health_violationsExpected Output Type: pandas.DataFrame
+Hints
+Expected Output
+sf_restaurant_health_violations
+Preview
+business_id:
+int64
+business_name:
+object
+business_address:
+object
+business_city:
+object
+business_state:
+object
+business_postal_code:
+float64
+business_latitude:
+float64
+business_longitude:
+float64
+business_location:
+object
+business_phone_number:
+float64
+inspection_id:
+object
+inspection_date:
+datetime64[ns]
+inspection_score:
+float64
+inspection_type:
+object
+violation_id:
+object
+violation_description:
+object
+risk_category:
+object
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+sf_restaurant_health_violations.head()
+sf_restaurant_health_violations['year'] = pd.to_datetime(sf_restaurant_health_violations['inspection_date']).dt.year
+df = sf_restaurant_health_violations
+result = df[(df['business_name']=='Roxanne Cafe') & (~df['violation_id'].isna())].groupby(['year'])['violation_id'].count().reset_index().rename(columns={'violation_id':'n_violations'})
