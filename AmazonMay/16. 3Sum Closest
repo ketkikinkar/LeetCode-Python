@@ -1,0 +1,59 @@
+16. 3Sum Closest
+Given an integer array nums of length n and an integer target, find three integers in nums such that the sum is closest to target.
+
+Return the sum of the three integers.
+
+You may assume that each input would have exactly one solution.
+Example 1:
+Input: nums = [-1,2,1,-4], target = 1
+Output: 2
+Explanation: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+Example 2:
+
+Input: nums = [0,0,0], target = 1
+Output: 0
+Explanation: The sum that is closest to the target is 0. (0 + 0 + 0 = 0).
+ 
+
+Constraints:
+
+3 <= nums.length <= 500
+-1000 <= nums[i] <= 1000
+-104 <= target <= 104
+
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        n = len(nums)
+        closestSum = float('inf')
+        for i, a in enumerate(nums):
+            if i>0 and nums[i] == nums[i-1]:
+                continue
+            l, r = i+1, n-1
+            while l<r:
+                curSum = a + nums[l]+ nums[r]
+                if abs(target-curSum) < abs(closestSum-target):
+                    closestSum = curSum
+                if curSum == target:
+                    return curSum
+                elif curSum < target:
+                    l+=1
+                else:
+                    r-=1
+        return closestSum
+"""
+Time Complexity:
+
+Best Case: O(n²) — if the exact target is found early.
+
+Average Case: O(n²)
+
+Worst Case: O(n²) — due to the nested two-pointer loop for each element.
+
+Space Complexity:
+
+O(1) — aside from sorting (which may use O(log n) stack space depending on the implementation), the algorithm uses constant extra space.
+
+How to Explain in an Interview:
+"This code finds the triplet in an array whose sum is closest to a target. I first sort the array to apply the two-pointer technique. Then, for each number, I fix it and use two pointers to find the best pair that, along with the fixed number, approaches the target. I skip duplicates to avoid redundant computations. This strategy keeps time complexity to O(n²) while using constant extra space."
+"""
