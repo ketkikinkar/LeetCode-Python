@@ -1,0 +1,69 @@
+3. Longest Substring Without Repeating Characters
+Given a string s, find the length of the longest substring without duplicate characters.
+
+ 
+
+Example 1:
+
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+Example 2:
+
+Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
+Example 3:
+
+Input: s = "pwwkew"
+Output: 3
+Explanation: The answer is "wke", with the length of 3.
+Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+ 
+
+Constraints:
+
+0 <= s.length <= 5 * 104
+s consists of English letters, digits, symbols and spaces.
+   Hide Hint #1  
+Generate all possible substrings & check for each substring if it's valid and keep updating maxLen accordingly.
+
+# SOLUTION:
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        charSet = set()
+        l = 0
+        res = 0
+        for r in range(len(s)):
+            while s[r] in charSet:
+                charSet.remove(s[l])
+                l+=1
+            charSet.add(s[r])
+            res = max(res,r-l+1)
+        return res
+"""
+
+Space and Time Complexity:
+
+Best Case (No repeating characters):
+
+Time: O(n)
+
+Space: O(min(n, m)) — where n is the length of the string and m is the size of the character set (e.g., 26 for lowercase English letters).
+
+Average Case:
+
+Time: O(n)
+
+Space: O(min(n, m))
+
+Worst Case (All characters are unique and scanned once):
+
+Time: O(n)
+
+Space: O(min(n, m))
+
+How to Explain to an Interviewer:
+
+"This is a sliding window approach to find the length of the longest substring without repeating characters. I use two pointers (l and r) to define the window and a set to track unique characters. When I encounter a duplicate, I shrink the window from the left until the character is removed. I update the result with the maximum window size observed. The time complexity is O(n) because each character is added and removed at most once from the set."""
