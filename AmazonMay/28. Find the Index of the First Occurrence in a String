@@ -1,0 +1,58 @@
+28. Find the Index of the First Occurrence in a String
+
+Easy
+Topics
+conpanies icon
+Companies
+Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+ 
+
+Example 1:
+
+Input: haystack = "sadbutsad", needle = "sad"
+Output: 0
+Explanation: "sad" occurs at index 0 and 6.
+The first occurrence is at index 0, so we return 0.
+Example 2:
+
+Input: haystack = "leetcode", needle = "leeto"
+Output: -1
+Explanation: "leeto" did not occur in "leetcode", so we return -1.
+ 
+
+Constraints:
+
+1 <= haystack.length, needle.length <= 104
+haystack and needle consist of only lowercase English characters.
+Seen this question in a real interview before?
+1/5
+Yes
+No
+Accepted
+3,310,833/7.4M
+Acceptance Rate
+44.9%
+
+class Solution:
+    def strStr(self, haystack: str, needle: str) -> int:
+        for i in range(len(haystack)-len(needle)+1):
+            if haystack[i:i+len(needle)] == needle:
+                return i
+        return -1
+"""
+Time Complexity:
+
+Best Case: O(1) → If needle is found at the beginning of haystack.
+
+Average Case: O((n - m + 1) * m) → n = len(haystack), m = len(needle). For each position, you compare up to m characters.
+
+Worst Case: O((n - m + 1) * m) → Worst when haystack has repeating characters, and needle partially matches at many places.
+
+Space Complexity:
+
+O(1) → No extra space used except variables.
+
+ How to Explain in an Interview
+"This is a brute-force substring search algorithm. It slides a window of length equal to the needle across the haystack and compares slices at each step. If it finds a match, it returns the index. The best case is constant time if the match is at the start, but in the worst case, it compares up to m characters for almost every position in the haystack. It's simple and easy to implement but not optimal for large inputs. For better performance, algorithms like KMP can be used."
+"""
